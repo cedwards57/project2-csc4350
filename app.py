@@ -66,12 +66,12 @@ def login_post():
 
 @app.route("/save", methods=["POST"])
 def save():
-    ...
+    pass
 
 
 @app.route("/")
 def main():
-    ...
+    pass
 
 
 app.run(
