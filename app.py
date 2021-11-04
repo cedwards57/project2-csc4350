@@ -61,7 +61,7 @@ def login():
 
 @app.route("/login", methods=["POST"])
 def login_post():
-    ...
+    pass
 
 
 @app.route("/save", methods=["POST"])
