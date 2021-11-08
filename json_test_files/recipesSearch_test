@@ -1,0 +1,101 @@
+{
+  "results": [
+    {
+      "id": 616596,
+      "title": "Apple Cider Pork with Red Cabbage and Oak Aged Apple Cider #winePW 5",
+      "readyInMinutes": 90,
+      "servings": 3,
+      "sourceUrl": "http://www.curiouscuisiniere.com/apple-cider-pork-with-red-cabbage/",
+      "openLicense": 0,
+      "image": "Apple-Cider-Pork-with-Red-Cabbage-and-Oak-Aged-Apple-Cider--winePW-5-616596.jpg"
+    },
+    {
+      "id": 47712,
+      "title": "Apple Ghosts",
+      "readyInMinutes": 45,
+      "servings": 12,
+      "sourceUrl": "http://www.myrecipes.com/recipe/apple-ghosts-10000000523460/",
+      "openLicense": 0,
+      "image": "apple-ghosts-47712.jpg"
+    },
+    {
+      "id": 179717,
+      "title": "Apple-Cheddar Strata",
+      "readyInMinutes": 430,
+      "servings": 4,
+      "sourceUrl": "http://www.bettycrocker.com/recipes/apple-cheddar-strata/03689fd1-d245-4ad6-9034-1b181684bfb5",
+      "openLicense": 0,
+      "image": "apple-cheddar-strata-179717.jpg"
+    },
+    {
+      "id": 438193,
+      "title": "Apple Pork Chops",
+      "readyInMinutes": 25,
+      "servings": 4,
+      "sourceUrl": "http://www.tasteofhome.com/Recipes/apple-pork-chops",
+      "openLicense": 0,
+      "image": "Apple-Pork-Chops-438193.jpg"
+    },
+    {
+      "id": 427011,
+      "title": "Apple Swiss Chicken",
+      "readyInMinutes": 45,
+      "servings": 2,
+      "sourceUrl": "http://www.tasteofhome.com/Recipes/apple-swiss-chicken",
+      "openLicense": 0,
+      "image": "Apple-Swiss-Chicken-427011.jpg"
+    },
+    {
+      "id": 434333,
+      "title": "Apple Sausage Bake",
+      "readyInMinutes": 70,
+      "servings": 8,
+      "sourceUrl": "http://www.tasteofhome.com/Recipes/apple-sausage-bake",
+      "openLicense": 0,
+      "image": "Apple-Sausage-Bake-434333.jpg"
+    },
+    {
+      "id": 447968,
+      "title": "Apple 'n' Onion Chicken",
+      "readyInMinutes": 50,
+      "servings": 6,
+      "sourceUrl": "http://www.tasteofhome.com/recipes/apple--n--onion-chicken",
+      "openLicense": 0,
+      "image": "Apple-n-Onion-Chicken-447968.jpg"
+    },
+    {
+      "id": 471379,
+      "title": "Pork Apple Burgers",
+      "readyInMinutes": 30,
+      "servings": 8,
+      "sourceUrl": "http://allrecipes.com/Recipe/Pork-Apple-Burgers/Detail.aspx?src=rss",
+      "openLicense": 0,
+      "image": "Pork-Apple-Burgers-471379.jpg"
+    },
+    {
+      "id": 473042,
+      "title": "Apple Dijon Burgers",
+      "readyInMinutes": 22,
+      "servings": 3,
+      "sourceUrl": "http://civilizedcavemancooking.com/entrees/beef/apple-dijon-burgers/",
+      "openLicense": 0,
+      "image": "Apple-Dijon-Burgers-473042.jpg"
+    },
+    {
+      "id": 578648,
+      "title": "Apple Wrapped Salmon",
+      "readyInMinutes": 25,
+      "servings": 2,
+      "sourceUrl": "http://www.foodfanatic.com/recipes/apple-wrapped-salmon-recipe/",
+      "openLicense": 0,
+      "image": "Apple-Wrapped-Salmon-578648.jpg"
+    }
+  ],
+  "baseUri": "https://spoonacular.com/recipeImages/",
+  "offset": 0,
+  "number": 10,
+  "totalResults": 811,
+  "processingTimeMs": 390,
+  "expires": 1636315532716,
+  "isStale": false
+}
