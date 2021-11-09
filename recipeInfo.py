@@ -27,8 +27,7 @@ def recipesInfo(recipe):
     recipe_info_list["summary"] = res2_json["summary"]
 
     # res_json_fmtd = json.dumps(res2_json, indent=2)
-
-    print(recipe_info_list)
+    # print(recipe_info_list["title"])
     return recipe_info_list
 
 recipesInfo(104446)
