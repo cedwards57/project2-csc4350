@@ -9,6 +9,10 @@ function App() {
   const args = JSON.parse(document.getElementById("data").text);
 
   // TODO: Implement your main page as a React component.
+  return (
+    <>
+    </>
+  );
 }
 
 export default App;
