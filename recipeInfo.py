@@ -7,19 +7,29 @@ import json
 from dotenv import find_dotenv, load_dotenv
 from requests.models import Response
 
+
 def recipesInfo(recipe):
     load_dotenv(find_dotenv())
 
     BASE_URL = f"https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/{recipe}/information"
-    
+
     headers = {
-    'x-rapidapi-host': "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com",
-    'x-rapidapi-key': os.getenv("x-rapidapi-key")
+        "x-rapidapi-host": "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com",
+        "x-rapidapi-key": os.getenv("x-rapidapi-key"),
     }
 
     res2 = requests.request("GET", url=BASE_URL, headers=headers)
     res2_json = res2.json()
 
+<<<<<<< HEAD
+    recipe_info = {"title": res2_json["title"], "summary": res2_json["summary"]}
+
+    # res_json_fmtd = json.dumps(res2_json, indent=2)
+
+    # print(res_json_fmtd)
+    return recipe_info
+
+=======
     recipe_info_list = {}
 
     recipe_info_list["title"] = res2_json["title"]
@@ -29,5 +39,6 @@ def recipesInfo(recipe):
     # res_json_fmtd = json.dumps(res2_json, indent=2)
     # print(recipe_info_list["title"])
     return recipe_info_list
+>>>>>>> main
 
 recipesInfo(104446)
