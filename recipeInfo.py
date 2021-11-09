@@ -20,14 +20,14 @@ def recipesInfo(recipe):
     res2 = requests.request("GET", url=BASE_URL, headers=headers)
     res2_json = res2.json()
 
-    recipe_info_list = []
+    recipe_info_list = {}
 
-    recipe_info_list.append(res2_json["title"])
-    recipe_info_list.append(res2_json["summary"])
+    recipe_info_list["title"] = res2_json["title"]
+    recipe_info_list["imageURL"] = res2_json["image"]
+    recipe_info_list["summary"] = res2_json["summary"]
 
     # res_json_fmtd = json.dumps(res2_json, indent=2)
-
-    # print(res_json_fmtd)
+    # print(recipe_info_list["title"])
     return recipe_info_list
 
 recipesInfo(104446)
