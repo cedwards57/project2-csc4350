@@ -119,7 +119,6 @@ def saverecipes():
 
 
 @app.route("/searchrecipes", methods=["POST"])
-# login required
 def searchrecipes():
     query = json.loads(flask.request.data)["query"]
     result_ids = recipesSearch(query)

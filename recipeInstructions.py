@@ -22,9 +22,22 @@ def instructions(recipe):
     res = requests.request("GET", url=BASE_URL, headers=headers, params=querystring)
     res_json = res.json()
 
+    ingredients = []
+
+    for ing in res_json["ingredients"]:
+        ingredients.append(
+            {
+                "name": ing["name"],
+                "quantity": ing["amount"]["us"]["value"],
+                "units": ing["amount"]["us"]["unit"],
+            }
+        )
+
     # if you would like to see the output json for the query that is run then uncomment the next line and past the result into testResult, over the existing text.
-    json_formatted_str = json.dumps(res_json, indent=2)
-    return json_formatted_str
+    # json_formatted_str = json.dumps(res_json, indent=2)
+    # print(json_formatted_str)
+
+    return ingredients
 
 
 instructions(324694)
