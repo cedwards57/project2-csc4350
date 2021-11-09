@@ -38,6 +38,3 @@ def instructions(recipe):
     # print(json_formatted_str)
 
     return ingredients
-
-
-instructions(324694)

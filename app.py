@@ -34,16 +34,11 @@ app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL_QL")
 db_init(app)
 
 
-@bp.route("/index")
-@login_required
-def index():
-    # TODO: insert the data fetched by your app main page here as a JSON
-    DATA = {"your": "data here"}
+@bp.route("/recipelist")
+def recipelist():
+    DATA = {"name": "Hewwo"}
     data = json.dumps(DATA)
-    return flask.render_template(
-        "index.html",
-        data=data,
-    )
+    return flask.render_template("index.html", data=data)
 
 
 app.register_blueprint(bp)
@@ -94,8 +89,7 @@ def saverecipes():
 
 
 @app.route("/saveingredients", methods=["POST"])
-# login required
-def saverecipes():
+def saveingredients():
     error_messages = []
     del_ingredients = json.loads(flask.request.data)["delIngredients"]
     add_ingredients = json.loads(flask.request.data)["addIngredients"]
@@ -116,7 +110,6 @@ def saverecipes():
 
 
 @app.route("/searchrecipes", methods=["POST"])
-# login required
 def searchrecipes():
     query = json.loads(flask.request.data)["query"]
     result_ids = recipesSearch(query)
@@ -126,32 +119,8 @@ def searchrecipes():
 
 
 @app.route("/recipe")
-# login required
 def recipe():
     return flask.render_template("recipe.html")
-
-
-@app.route("/recipelist")
-# login required
-def recipelist():
-    recipe_ids = get_recipe_ids("")  # email
-    ingredient_names = get_ingredient_names("")
-    recipes = [recipesInfo(i) for i in recipe_ids]
-    ingredients = [
-        {
-            "name": i,
-            "quantity": get_ingredient_quantity(i),
-            "units": get_ingredient_units(i),
-        }
-        for i in ingredient_names
-    ]
-    DATA = {
-        "recipe_ids": recipe_ids,
-        "ingredient_names": ingredient_names,
-        "name": "",  # name
-    }
-    data = json.dumps(DATA)
-    return flask.render_template("index.html", data=data)
 
 
 @app.route("/grocerylist")

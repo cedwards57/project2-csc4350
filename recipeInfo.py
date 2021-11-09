@@ -30,6 +30,3 @@ def recipesInfo(recipe):
     # res_json_fmtd = json.dumps(res2_json, indent=2)
     # print(recipe_info_list["title"])
     return recipe_info_list
-
-
-recipesInfo(104446)
