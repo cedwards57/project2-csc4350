@@ -98,15 +98,17 @@ def saverecipes():
 def saverecipes():
     error_messages = []
     del_ingredients = json.loads(flask.request.data)["delIngredients"]
-    add_ingredients = json.loads(flask.request.data)["addRIngredients"]
+    add_ingredients = json.loads(flask.request.data)["addIngredients"]
 
     for i in del_ingredients:
         del_ingredient("", i)
     for i in add_ingredients:
-        add_ingredient("", i)
+        add_ingredient(
+            "",
+            i,
+        )
 
     current_ingredients = get_ingredient_ids("")  # current user email
-
     jsonreturn = flask.jsonify(
         {
             "newRecipeList": current_ingredients,
@@ -116,9 +118,36 @@ def saverecipes():
     return jsonreturn
 
 
+@app.route("/searchrecipes", methods=["POST"])
+# login required
+def searchrecipes():
+    query = json.loads(flask.request.data)["query"]
+    result_ids = recipesSearch(query)
+    recipes_info = [recipesInfo(i) for i in result_ids]
+    jsonreturn = flask.jsonify({"results": recipes_info})  # data.results gives a list
+    return jsonreturn
+
+
 @app.route("/recipe")
+# login required
 def recipe():
     return flask.render_template("recipe.html")
+
+
+@app.route("/recipelist")
+# login required
+def recipelist():
+    recipe_ids = get_recipe_ids("")  # email
+    ingredient_ids = get_ingredient_ids("")
+    return flask.render_template("index.html", data=data)
+
+
+@app.route("/grocerylist")
+# login required
+def recipelist():
+    recipe_ids = get_recipe_ids("")  # email
+
+    return flask.render_template("index.html", data=data)
 
 
 app.run(
