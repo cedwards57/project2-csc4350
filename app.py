@@ -19,6 +19,10 @@ from db_functions import (
     get_recipe_ids,
     get_ingredient_ids,
 )
+from recipeInfo import recipesInfo
+from recipeInstructions import instructions
+from recipesSearch import recipesSearch
+from recipeIngredients import recipeIngredients
 
 load_dotenv(find_dotenv())
 
