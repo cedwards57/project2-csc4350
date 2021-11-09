@@ -8,9 +8,13 @@ function App() {
   // in public/index.html in the script with id "data"
   const args = JSON.parse(document.getElementById("data").text);
 
-  // TODO: Implement your main page as a React component.
   return (
     <>
+    <h1>Your Grocery List</h1>
+    <div class="theTable">
+      <table className="table">
+      </table>
+    </div>
     </>
   );
 }
