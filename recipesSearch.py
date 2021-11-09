@@ -35,10 +35,7 @@ def recipesSearch(items):
     # print(searchResultID)
 
     return searchResultIDs
-<<<<<<< HEAD
 
-=======
->>>>>>> main
 
 # uncomment next two lines to test the function
 # things = "chicken"

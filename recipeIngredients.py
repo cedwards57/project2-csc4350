@@ -26,6 +26,7 @@ def recipeIngredients(rID):
         ingredients.append(
             {
                 "name": ing["name"],
+                "recipe_id": rID,
                 "quantity": ing["amount"]["us"]["value"],
                 "units": ing["amount"]["us"]["unit"],
             }

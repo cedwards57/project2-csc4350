@@ -28,12 +28,12 @@ class SavedRecipe(db.Model):
 
 class SavedIngredient(db.Model):
     email = db.Column(db.String(30), primary_key="True")
-    ingredient_id = db.Column(db.String(80), primary_key="True")
+    ingredient_name = db.Column(db.String(80), primary_key="True")
     quantity = db.Column(db.Integer)
     units = db.Column(db.String(80))
 
     def __repr__(self):
-        return "<SavedIngredient %r %r>" % (self.email, self.ingredient_id)
+        return "<SavedIngredient %r %r>" % (self.email, self.ingredient_name)
 
     def get_artist_id(self):
-        return self.ingredient_id
+        return self.ingredient_name

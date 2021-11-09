@@ -17,7 +17,7 @@ from db_functions import (
     get_ingredient_quantity,
     get_ingredient_units,
     get_recipe_ids,
-    get_ingredient_ids,
+    get_ingredient_names,
 )
 from recipeInfo import recipesInfo
 from recipeInstructions import instructions
@@ -101,14 +101,11 @@ def saverecipes():
     add_ingredients = json.loads(flask.request.data)["addIngredients"]
 
     for i in del_ingredients:
-        del_ingredient("", i)
+        del_ingredient("", i["name"])
     for i in add_ingredients:
-        add_ingredient(
-            "",
-            i,
-        )
+        add_ingredient("", i["name"], i["quantity"], i["units"])
 
-    current_ingredients = get_ingredient_ids("")  # current user email
+    current_ingredients = get_ingredient_names("")  # current user email
     jsonreturn = flask.jsonify(
         {
             "newRecipeList": current_ingredients,
@@ -119,6 +116,7 @@ def saverecipes():
 
 
 @app.route("/searchrecipes", methods=["POST"])
+# login required
 def searchrecipes():
     query = json.loads(flask.request.data)["query"]
     result_ids = recipesSearch(query)
@@ -137,15 +135,31 @@ def recipe():
 # login required
 def recipelist():
     recipe_ids = get_recipe_ids("")  # email
-    ingredient_ids = get_ingredient_ids("")
+    ingredient_names = get_ingredient_names("")
+    recipes = [recipesInfo(i) for i in recipe_ids]
+    ingredients = [
+        {
+            "name": i,
+            "quantity": get_ingredient_quantity(i),
+            "units": get_ingredient_units(i),
+        }
+        for i in ingredient_names
+    ]
+    DATA = {
+        "recipe_ids": recipe_ids,
+        "ingredient_names": ingredient_names,
+        "name": "",  # name
+    }
+    data = json.dumps(DATA)
     return flask.render_template("index.html", data=data)
 
 
 @app.route("/grocerylist")
 # login required
-def recipelist():
+def grocerylist():
     recipe_ids = get_recipe_ids("")  # email
-
+    DATA = {"": ""}
+    data = json.dumps(DATA)
     return flask.render_template("index.html", data=data)
 
 

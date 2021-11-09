@@ -44,16 +44,16 @@ def del_recipe(email, recipe_id):
         db.session.commit()
 
 
-def add_ingredient(email, ingredient_id, quantity, units):
+def add_ingredient(email, ingredient_name, quantity, units):
     if type(quantity) is not int:
         quantity = int(quantity)
     this_ingredient = SavedIngredient.query.filter_by(
-        email=email, ingredient_id=ingredient_id
+        email=email, ingredient_name=ingredient_name
     ).first()
     if this_ingredient is None:
         new_ingredient = SavedIngredient(
             email=email,
-            ingredient_id=ingredient_id,
+            ingredient_name=ingredient_name,
             quantity=quantity,
             units=units,
         )
@@ -61,38 +61,38 @@ def add_ingredient(email, ingredient_id, quantity, units):
         db.session.commit()
 
 
-def del_ingredient(email, ingredient_id):
+def del_ingredient(email, ingredient_name):
     this_ingredient = SavedIngredient.query.filter_by(
-        email=email, ingredient_id=ingredient_id
+        email=email, ingredient_name=ingredient_name
     ).first()
     if this_ingredient is not None:
         db.session.delete(this_ingredient)
         db.session.commit()
 
 
-def update_ingredient_quantity_and_units(email, ingredient_id, quantity, units):
+def update_ingredient_quantity_and_units(email, ingredient_name, quantity, units):
     if type(quantity) is not int:
         quantity = int(quantity)
     this_ingredient = SavedIngredient.query.filter_by(
-        email=email, ingredient_id=ingredient_id
+        email=email, ingredient_name=ingredient_name
     ).first()
     if this_ingredient is not None:
         this_ingredient.quantity = quantity
         this_ingredient.units = units
 
 
-def get_ingredient_quantity(email, ingredient_id):
+def get_ingredient_quantity(email, ingredient_name):
     this_ingredient = SavedIngredient.query.filter_by(
-        email=email, ingredient_id=ingredient_id
+        email=email, ingredient_name=ingredient_name
     ).first()
     if this_ingredient is None:
         return None
     return this_ingredient.quantity
 
 
-def get_ingredient_units(email, ingredient_id):
+def get_ingredient_units(email, ingredient_name):
     this_ingredient = SavedIngredient.query.filter_by(
-        email=email, ingredient_id=ingredient_id
+        email=email, ingredient_name=ingredient_name
     ).first()
     if this_ingredient is None:
         return None
@@ -112,7 +112,7 @@ def get_recipe_ids(email):
     return recipe_list
 
 
-def get_ingredient_ids(email):
+def get_ingredient_names(email):
     ingredients = SavedIngredient.query.filter_by(email=email)
-    ingredient_list = [i.ingredient_id for i in ingredients]
+    ingredient_list = [i.ingredient_name for i in ingredients]
     return ingredient_list
