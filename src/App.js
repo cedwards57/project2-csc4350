@@ -3,6 +3,7 @@ import './App.css';
 import { useState, useRef } from 'react';
 import { BrowserRouter as Router, Switch, Route, Link, Redirect } from 'react-router-dom'
 
+
  function getMealData() {
     const [mealData, setMealData] = useState(null)
     fetch('/save', {
@@ -24,6 +25,28 @@ import { BrowserRouter as Router, Switch, Route, Link, Redirect } from 'react-ro
 function App() {
   // fetches JSON data passed in by flask.render_template and loaded
   // in public/index.html in the script with id "data"
+  var convert = require('convert-units')
+  const [amnt, setamnt] = useState('');
+  const [unt, setunt] = useState('');
+
+  function add_quantities(amnt1, unt1, amnt2, unt2){
+    if(unt1 == unt2){
+      setunt(unt1)
+      setamnt(amnt1 + amnt2)
+    }
+    else {
+      if (convert(amnt1).from(unt1).to(unt2) < 1) {
+        setunt(unt1)
+        setamnt(amnt1 + convert(amnt2).from(unt2).to(unt1))
+      }
+      else {
+        setunt(unt2)
+        setamnt(amnt2 + convert(amnt1).from(unt1).to(unt2))
+      }
+    }
+
+    return {"amount" : amnt, "unit": unt}
+  }
 
   return (
     <Router>
