@@ -8,6 +8,7 @@ from db_functions import (
     add_user,
     del_user,
     get_name,
+    user_exists,
     add_recipe,
     del_recipe,
     add_ingredient,
@@ -64,14 +65,36 @@ def login_post():
     pass
 
 
-@app.route("/save", methods=["POST"])
-def save():
-    pass
+@app.route("/saverecipes", methods=["POST"])
+def saverecipes():
+    error_messages = []
+    del_recipes = json.loads(flask.request.data)["delRecipes"]
+    add_recipes = json.loads(flask.request.data)["addRecipes"]
+
+    for i in del_recipes:
+        del_recipe("", i)
+    for i in add_recipes:
+        add_recipe("", i)
+
+    current_recipes = get_recipe_ids("")  # current user email
+
+    jsonreturn = flask.jsonify(
+        {
+            "newRecipeList": current_recipes,
+            "errorMessages": error_messages,
+        }
+    )
+    return jsonreturn
 
 
 @app.route("/")
 def main():
-    pass
+    return flask.render_template("index.html")
+
+
+@app.route("/about")
+def about():
+    return flask.render_template("<h2>HELLO WORLD???</h2>")
 
 
 app.run(
