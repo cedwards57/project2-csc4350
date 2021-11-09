@@ -80,7 +80,16 @@ function Users() {
     <>
     <h1>Your Grocery List</h1>
     <div class="theTable">
-      <table className="table">
+      <table className="table table-striped table-dark">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            {/* the next three columns should be variables passed form back end database */}
+            <th scope="col">Ingredient</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Unit</th>
+          </tr>
+        </thead>
       </table>
     </div>
     </>
