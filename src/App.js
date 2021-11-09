@@ -1,12 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import { useState, useRef } from 'react';
-import {
-  BrowserRouter as Router,
-  Routes as Switch,
-  Route,
-  Link
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Link, Redirect } from 'react-router-dom'
 
 
 function App() {

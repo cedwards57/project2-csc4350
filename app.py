@@ -49,27 +49,29 @@ def index():
 app.register_blueprint(bp)
 
 
-@app.route("/signup")
-def signup():
-    ...
-
-
-@app.route("/signup", methods=["POST"])
-def signup_post():
-    ...
+@app.route("/")
+def index():
+    if True:  # if user is logged in:
+        return flask.redirect("/recipelist")
+    else:
+        return flask.redirect("/login")
 
 
 @app.route("/login")
 def login():
-    ...
+    return flask.render_template("login.html")
 
 
 @app.route("/login", methods=["POST"])
 def login_post():
-    pass
+    if not user_exists(""):  # email
+        add_user("", "")  # email, name
+    # login user
+    flask.redirect("/recipe")
 
 
 @app.route("/saverecipes", methods=["POST"])
+# login required
 def saverecipes():
     error_messages = []
     del_recipes = json.loads(flask.request.data)["delRecipes"]
@@ -91,14 +93,32 @@ def saverecipes():
     return jsonreturn
 
 
-@app.route("/")
-def main():
-    return flask.render_template("index.html")
+@app.route("/saveingredients", methods=["POST"])
+# login required
+def saverecipes():
+    error_messages = []
+    del_ingredients = json.loads(flask.request.data)["delIngredients"]
+    add_ingredients = json.loads(flask.request.data)["addRIngredients"]
+
+    for i in del_ingredients:
+        del_ingredient("", i)
+    for i in add_ingredients:
+        add_ingredient("", i)
+
+    current_ingredients = get_ingredient_ids("")  # current user email
+
+    jsonreturn = flask.jsonify(
+        {
+            "newRecipeList": current_ingredients,
+            "errorMessages": error_messages,
+        }
+    )
+    return jsonreturn
 
 
-@app.route("/about")
-def about():
-    return flask.render_template("<h2>HELLO WORLD???</h2>")
+@app.route("/recipe")
+def recipe():
+    return flask.render_template("recipe.html")
 
 
 app.run(
