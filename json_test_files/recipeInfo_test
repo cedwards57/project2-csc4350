@@ -1,0 +1,450 @@
+{
+  "vegetarian": false,
+  "vegan": false,
+  "glutenFree": true,
+  "dairyFree": false,
+  "veryHealthy": false,
+  "cheap": false,
+  "veryPopular": false,
+  "sustainable": false,
+  "weightWatcherSmartPoints": 17,
+  "gaps": "no",
+  "lowFodmap": false,
+  "preparationMinutes": 15,
+  "cookingMinutes": 60,
+  "aggregateLikes": 0,
+  "spoonacularScore": 68.0,
+  "healthScore": 36.0,
+  "creditsText": "Food.com",
+  "sourceName": "Food.com",
+  "pricePerServing": 213.94,
+  "extendedIngredients": [
+    {
+      "id": 10011693,
+      "aisle": "Canned and Jarred",
+      "image": "tomatoes-canned.png",
+      "consistency": "solid",
+      "name": "canned tomatoes",
+      "nameClean": "canned tomatoes",
+      "original": "1 (400 g) can chopped tomatoes",
+      "originalString": "1 (400 g) can chopped tomatoes",
+      "originalName": "chopped tomatoes",
+      "amount": 400.0,
+      "unit": "g",
+      "meta": [
+        "chopped",
+        "canned"
+      ],
+      "metaInformation": [
+        "chopped",
+        "canned"
+      ],
+      "measures": {
+        "us": {
+          "amount": 14.11,
+          "unitShort": "oz",
+          "unitLong": "ounces"
+        },
+        "metric": {
+          "amount": 400.0,
+          "unitShort": "g",
+          "unitLong": "grams"
+        }
+      }
+    },
+    {
+      "id": 1005006,
+      "aisle": "Meat",
+      "image": "chicken-parts.jpg",
+      "consistency": "solid",
+      "name": "chicken pieces",
+      "nameClean": "chicken pieces",
+      "original": "1 1/4 kg chicken pieces (skin on or off)",
+      "originalString": "1 1/4 kg chicken pieces (skin on or off)",
+      "originalName": "chicken pieces (skin on or off)",
+      "amount": 1.25,
+      "unit": "kg",
+      "meta": [
+        "(skin on or off)"
+      ],
+      "metaInformation": [
+        "(skin on or off)"
+      ],
+      "measures": {
+        "us": {
+          "amount": 2.756,
+          "unitShort": "lb",
+          "unitLong": "pounds"
+        },
+        "metric": {
+          "amount": 1.25,
+          "unitShort": "kg",
+          "unitLong": "kgs"
+        }
+      }
+    },
+    {
+      "id": 6172,
+      "aisle": "Canned and Jarred",
+      "image": "chicken-broth.png",
+      "consistency": "liquid",
+      "name": "chicken stock",
+      "nameClean": "chicken stock",
+      "original": "1 cup chicken stock",
+      "originalString": "1 cup chicken stock",
+      "originalName": "chicken stock",
+      "amount": 1.0,
+      "unit": "cup",
+      "meta": [],
+      "metaInformation": [],
+      "measures": {
+        "us": {
+          "amount": 1.0,
+          "unitShort": "cup",
+          "unitLong": "cup"
+        },
+        "metric": {
+          "amount": 236.588,
+          "unitShort": "ml",
+          "unitLong": "milliliters"
+        }
+      }
+    },
+    {
+      "id": 1002010,
+      "aisle": "Spices and Seasonings",
+      "image": "cinnamon.jpg",
+      "consistency": "solid",
+      "name": "cinnamon stick",
+      "nameClean": "cinnamon stick",
+      "original": "1 cinnamon stick",
+      "originalString": "1 cinnamon stick",
+      "originalName": "cinnamon stick",
+      "amount": 1.0,
+      "unit": "",
+      "meta": [],
+      "metaInformation": [],
+      "measures": {
+        "us": {
+          "amount": 1.0,
+          "unitShort": "",
+          "unitLong": ""
+        },
+        "metric": {
+          "amount": 1.0,
+          "unitShort": "",
+          "unitLong": ""
+        }
+      }
+    },
+    {
+      "id": 19296,
+      "aisle": "Nut butters, Jams, and Honey",
+      "image": "honey.png",
+      "consistency": "liquid",
+      "name": "honey",
+      "nameClean": "honey",
+      "original": "1 tablespoon honey",
+      "originalString": "1 tablespoon honey",
+      "originalName": "honey",
+      "amount": 1.0,
+      "unit": "tablespoon",
+      "meta": [],
+      "metaInformation": [],
+      "measures": {
+        "us": {
+          "amount": 1.0,
+          "unitShort": "Tbsp",
+          "unitLong": "Tbsp"
+        },
+        "metric": {
+          "amount": 1.0,
+          "unitShort": "Tbsp",
+          "unitLong": "Tbsp"
+        }
+      }
+    },
+    {
+      "id": 9152,
+      "aisle": "Produce",
+      "image": "lemon-juice.jpg",
+      "consistency": "liquid",
+      "name": "juice of lemon",
+      "nameClean": "lemon juice",
+      "original": "1 lemon, juice of",
+      "originalString": "1 lemon, juice of",
+      "originalName": "lemon, juice of",
+      "amount": 1.0,
+      "unit": "",
+      "meta": [],
+      "metaInformation": [],
+      "measures": {
+        "us": {
+          "amount": 1.0,
+          "unitShort": "",
+          "unitLong": ""
+        },
+        "metric": {
+          "amount": 1.0,
+          "unitShort": "",
+          "unitLong": ""
+        }
+      }
+    },
+    {
+      "id": 4053,
+      "aisle": "Oil, Vinegar, Salad Dressing",
+      "image": "olive-oil.jpg",
+      "consistency": "liquid",
+      "name": "olive oil",
+      "nameClean": "olive oil",
+      "original": "2 tablespoons olive oil",
+      "originalString": "2 tablespoons olive oil",
+      "originalName": "olive oil",
+      "amount": 2.0,
+      "unit": "tablespoons",
+      "meta": [],
+      "metaInformation": [],
+      "measures": {
+        "us": {
+          "amount": 2.0,
+          "unitShort": "Tbsps",
+          "unitLong": "Tbsps"
+        },
+        "metric": {
+          "amount": 2.0,
+          "unitShort": "Tbsps",
+          "unitLong": "Tbsps"
+        }
+      }
+    },
+    {
+      "id": 11282,
+      "aisle": "Produce",
+      "image": "brown-onion.png",
+      "consistency": "solid",
+      "name": "onions",
+      "nameClean": "onion",
+      "original": "2 onions, chopped",
+      "originalString": "2 onions, chopped",
+      "originalName": "onions, chopped",
+      "amount": 2.0,
+      "unit": "",
+      "meta": [
+        "chopped"
+      ],
+      "metaInformation": [
+        "chopped"
+      ],
+      "measures": {
+        "us": {
+          "amount": 2.0,
+          "unitShort": "",
+          "unitLong": ""
+        },
+        "metric": {
+          "amount": 2.0,
+          "unitShort": "",
+          "unitLong": ""
+        }
+      }
+    },
+    {
+      "id": 9291,
+      "aisle": "Dried Fruits;Produce",
+      "image": "prunes.jpg",
+      "consistency": "solid",
+      "name": "prunes",
+      "nameClean": "prunes",
+      "original": "12 pitted prunes, about",
+      "originalString": "12 pitted prunes, about",
+      "originalName": "pitted prunes, about",
+      "amount": 12.0,
+      "unit": "",
+      "meta": [
+        "pitted"
+      ],
+      "metaInformation": [
+        "pitted"
+      ],
+      "measures": {
+        "us": {
+          "amount": 12.0,
+          "unitShort": "",
+          "unitLong": ""
+        },
+        "metric": {
+          "amount": 12.0,
+          "unitShort": "",
+          "unitLong": ""
+        }
+      }
+    },
+    {
+      "id": 11422,
+      "aisle": "Produce",
+      "image": "pumpkin.png",
+      "consistency": "solid",
+      "name": "pumpkin",
+      "nameClean": "sugar pumpkin",
+      "original": "1/2 kg pumpkin, butternut cut in 1 inch squares",
+      "originalString": "1/2 kg pumpkin, butternut cut in 1 inch squares",
+      "originalName": "pumpkin, butternut cut in 1 inch squares",
+      "amount": 0.5,
+      "unit": "kg",
+      "meta": [
+        "cut in 1 inch squares"
+      ],
+      "metaInformation": [
+        "cut in 1 inch squares"
+      ],
+      "measures": {
+        "us": {
+          "amount": 1.102,
+          "unitShort": "lb",
+          "unitLong": "pounds"
+        },
+        "metric": {
+          "amount": 0.5,
+          "unitShort": "kg",
+          "unitLong": "kgs"
+        }
+      }
+    },
+    {
+      "id": 1062027,
+      "aisle": "Spices and Seasonings",
+      "image": "seasoning.png",
+      "consistency": "solid",
+      "name": "ras el hanout spice mix",
+      "nameClean": "ras el hanout",
+      "original": "1 1/2 tablespoons ras el hanout spice mix (jans recipe)",
+      "originalString": "1 1/2 tablespoons ras el hanout spice mix (jans recipe)",
+      "originalName": "ras el hanout spice mix (jans recipe)",
+      "amount": 1.5,
+      "unit": "tablespoons",
+      "meta": [
+        "(jans recipe)"
+      ],
+      "metaInformation": [
+        "(jans recipe)"
+      ],
+      "measures": {
+        "us": {
+          "amount": 1.5,
+          "unitShort": "Tbsps",
+          "unitLong": "Tbsps"
+        },
+        "metric": {
+          "amount": 1.5,
+          "unitShort": "Tbsps",
+          "unitLong": "Tbsps"
+        }
+      }
+    },
+    {
+      "id": 2037,
+      "aisle": "Ethnic Foods;Spices and Seasonings;Gourmet",
+      "image": "saffron.jpg",
+      "consistency": "solid",
+      "name": "saffron",
+      "nameClean": "saffron",
+      "original": "1/4 teaspoon saffron thread",
+      "originalString": "1/4 teaspoon saffron thread",
+      "originalName": "saffron thread",
+      "amount": 0.25,
+      "unit": "teaspoon",
+      "meta": [],
+      "metaInformation": [],
+      "measures": {
+        "us": {
+          "amount": 0.25,
+          "unitShort": "tsps",
+          "unitLong": "teaspoons"
+        },
+        "metric": {
+          "amount": 0.25,
+          "unitShort": "tsps",
+          "unitLong": "teaspoons"
+        }
+      }
+    },
+    {
+      "id": 1102047,
+      "aisle": "Spices and Seasonings",
+      "image": "salt-and-pepper.jpg",
+      "consistency": "solid",
+      "name": "salt and pepper",
+      "nameClean": "salt and pepper",
+      "original": "salt and pepper",
+      "originalString": "salt and pepper",
+      "originalName": "salt and pepper",
+      "amount": 4.0,
+      "unit": "servings",
+      "meta": [],
+      "metaInformation": [],
+      "measures": {
+        "us": {
+          "amount": 4.0,
+          "unitShort": "servings",
+          "unitLong": "servings"
+        },
+        "metric": {
+          "amount": 4.0,
+          "unitShort": "servings",
+          "unitLong": "servings"
+        }
+      }
+    },
+    {
+      "id": 1116,
+      "aisle": "Milk, Eggs, Other Dairy",
+      "image": "plain-yogurt.jpg",
+      "consistency": "solid",
+      "name": "yoghurt",
+      "nameClean": "yogurt",
+      "original": "yoghurt",
+      "originalString": "yoghurt",
+      "originalName": "yoghurt",
+      "amount": 4.0,
+      "unit": "servings",
+      "meta": [],
+      "metaInformation": [],
+      "measures": {
+        "us": {
+          "amount": 4.0,
+          "unitShort": "servings",
+          "unitLong": "servings"
+        },
+        "metric": {
+          "amount": 4.0,
+          "unitShort": "servings",
+          "unitLong": "servings"
+        }
+      }
+    }
+  ],
+  "id": 104446,
+  "title": "Moroccan Chicken",
+  "readyInMinutes": 75,
+  "servings": 4,
+  "sourceUrl": "http://www.food.com/recipe/moroccan-chicken-83172",
+  "image": "https://spoonacular.com/recipeImages/104446-556x370.jpg",
+  "imageType": "jpg",
+  "summary": "Need a <b>gluten free main course</b>? Moroccan Chicken could be an awesome recipe to try. This recipe serves 4 and costs $2.16 per serving. One serving contains <b>747 calories</b>, <b>47g of protein</b>, and <b>42g of fat</b>. Not a lot of people made this recipe, and 1 would say it hit the spot. Head to the store and pick up saffron thread, chicken pieces, juice of lemon, and a few other things to make it today. To use up the saffron you could follow this main course with the <a href=\"https://spoonacular.com/recipes/creamy-saffron-yogurt-213954\">Creamy saffron yogurt</a> as a dessert. From preparation to the plate, this recipe takes around <b>1 hour and 15 minutes</b>. All things considered, we decided this recipe <b>deserves a spoonacular score of 74%</b>. This score is solid. Try <a href=\"https://spoonacular.com/recipes/moroccan-chicken-100422\">Moroccan Chicken</a>, <a href=\"https://spoonacular.com/recipes/moroccan-chicken-543637\">Moroccan Chicken</a>, and <a href=\"https://spoonacular.com/recipes/moroccan-chicken-74397\">Moroccan Chicken</a> for similar recipes.",
+  "cuisines": [],
+  "dishTypes": [
+    "lunch",
+    "main course",
+    "main dish",
+    "dinner"
+  ],
+  "diets": [
+    "gluten free"
+  ],
+  "occasions": [],
+  "winePairing": {},
+  "instructions": null,
+  "analyzedInstructions": [],
+  "originalId": null
+}
