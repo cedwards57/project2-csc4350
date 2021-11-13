@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
+        body {
+            background-color: #66C6DA;
+        }
+    </style>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Login Page!!</title>
+</head>
+
+<body>
+    <h2>Grocery List</h2>
+      <div class="theTable">
+        <table class="table table-striped table-dark">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Ingredient</th>
+              <th scope="col">Amount</th>
+              <th scope="col">Unit</th>
+            </tr>
+          </thead>
+          <tbody>
+                {%for i in range(0,length)%}
+                    <tr>
+                        <th scope="row">{{i + 1}}</th>
+                        {%for j in range(0,length2)%}
+                            <td>{{listForTable[i][j]}}</td>
+                    </tr>
+                {%endfor%}
+          </tbody>
+        </table>
+      </div>
+</body>
+
+</html>
