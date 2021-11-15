@@ -6,10 +6,10 @@
     </head>
     <body>
         <div class="logbox">
-        <form method="POST" action="/loginpost">
+        <form method="POST" action="/signuppost">
             <input type="text" name="email" placeholder="Email"/><br/>
             <input type="text" name="name" placeholder="Name"/><br/>
-            <input type="submit" value="Log In">
+            <input type="submit" value="Sign Up">
         </form>
         {% with messages = get_flashed_messages() %}
         {% if messages %}
@@ -22,7 +22,7 @@
         </ul>
         {% endif %}
         {% endwith %}
-        <div class="loglink"><a href="/signup">Sign Up</a></div>
+        <div class="loglink"><a href="/login">Log In</a></div>
     </div>
     </body>
 </html>

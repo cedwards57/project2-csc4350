@@ -1,10 +1,8 @@
 from models import User, SavedRecipe, SavedIngredient, db
 
 
-def db_init(app):
-    db.init_app(app)
-    with app.app_context():
-        db.create_all()
+def find_load_user(user_id):
+    return User.query.get(user_id)
 
 
 def add_user(email, name):
@@ -25,6 +23,19 @@ def del_user(email):
 def user_exists(email):
     this_user = User.query.filter_by(email=email).first()
     return this_user != None
+
+
+def user_info_correct(email, name):
+    this_user = User.query.filter_by(email=email, name=name).first()
+    return this_user != None
+
+
+def get_user(email):
+    return User.query.filter_by(email=email).first()
+
+
+def set_user(email, name):
+    return User(email=email, name=name)
 
 
 def add_recipe(email, recipe_id):
@@ -99,6 +110,12 @@ def get_ingredient_units(email, ingredient_name):
     return this_ingredient.units
 
 
+def get_ingredient(email, ingredient_name):
+    return SavedIngredient.query.filter_by(
+        email=email, ingredient_name=ingredient_name
+    ).first()
+
+
 def get_name(email):
     this_user = User.query.filter_by(email=email).first()
     if this_user is None:
@@ -112,7 +129,30 @@ def get_recipe_ids(email):
     return recipe_list
 
 
+def get_recipe(email, recipe_id):
+    return SavedRecipe.query.filter_by(email=email, recipe_id=recipe_id).first()
+
+
 def get_ingredient_names(email):
     ingredients = SavedIngredient.query.filter_by(email=email)
     ingredient_list = [i.ingredient_name for i in ingredients]
+    return ingredient_list
+
+
+def user_has_groceries(email):
+    ingredients = SavedIngredient.query.filter_by(email=email).first()
+    return ingredients is not None
+
+
+def user_has_recipes(email):
+    recipes = SavedRecipe.query.filter_by(email=email).first()
+    return recipes is not None
+
+
+def get_ingredients(email):
+    ingredients = SavedIngredient.query.filter_by(email=email)
+    ingredient_list = [
+        {"name": i.ingredient_name, "quantity": i.quantity, "units": i.units}
+        for i in ingredients
+    ]
     return ingredient_list
