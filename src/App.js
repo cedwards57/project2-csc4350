@@ -9,31 +9,8 @@ function App() {
   const args = JSON.parse(document.getElementById("data").text);
 
   return (
-    <Router>
-      <div>
-        <Switch>
-          <Route exact path="/grocerylist" >
-            <GroceryList name={args.name} />
-          </Route>
-          <Route exact path="/recipelist">
-            <RecipeList name={args.name} />
-          </Route>
-        </Switch>
-      </div>
-    </Router>
+    <h1>Placeholder</h1>
   );
-}
-
-function Home() {
-  return <h2>Home</h2>;
-}
-
-function About() {
-  return <h2>HELLO WORLD</h2>;
-}
-
-function Users() {
-  return (<h2>Users</h2>);
 }
 
 export default App;
