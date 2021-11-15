@@ -7,28 +7,12 @@ import { v4 as uuidv4 } from "uuid";
 import Recipe from "./components/Recipe";
 import Alert from "./components/Alert";
 
- function getMealData() {
-    const [mealData, setMealData] = useState(null)
-    fetch('/save', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(mealData),
-    })
-      .then(response => response.json())
-      .then(data => {
-        setMealData(data)
-      })
-      .catch(() => {
-        console.log("error")
-      })
-  }
 
 function App() {
   const [query, setQuery] = useState("");
-  const [recipes, setRecipes] = useState([]);
+  const [recipes, setRecipes] = useState(arges.recipes_id);
   const [alert, setAlert] = useState("");
+ 
 
   const APP_ID = "1bff948a";
   const APP_KEY = "6684732180f3eec5d8f961b7abd3d412";
@@ -56,7 +40,24 @@ function App() {
     e.preventDefault();
     getData();
   };
-
+ 
+   function getMealData() {
+    const requestData = {recipes_id: recipes };
+    fetch('/save', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(requestData),
+    })
+      .then(response => response.json())
+      .then(data => {
+        setMealData(data.recipes_id)
+      })
+      .catch(() => {
+        console.log("error")
+      })
+  }
   return (
     <div className="App">
       <h1>Food Searching App</h1>
