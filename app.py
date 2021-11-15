@@ -51,7 +51,10 @@ with app.app_context():
 @bp.route("/recipelist")
 @login_required
 def recipelist():
-    DATA = {"name": current_user.name, "recipes": get_recipe_ids(current_user.email)}
+    DATA = {
+        "name": current_user.name,
+        "recipes": get_recipe_ids(current_user.email),
+    }
     data = json.dumps(DATA)
     return flask.render_template("index.html", data=data)
 
