@@ -22,13 +22,11 @@
             <th scope="col">#</th>
             <th scope="col">Ingredient</th>
             <th scope="col">Amount</th>
-            <th scope="col">Unit</th>
           </tr>
           {% for i in range(len) %}
             <tr>
-              <td>{{ ingredients["names"][i] }}</td>
-              <td>{{ ingredients["quantities"][i] }}</td>
-              <td>{{ ingredients["units"][i] }}</td>
+              <td><form action="/delingredient" method="post">{{ ingredients["names"][i] }} <input type="hidden" name="ingredient_name" value={{ ingredients["names"][i] }} /><input type="submit" value="Delete"/></form></td>
+              <td>{{ ingredients["quantities"][i] }} {{ ingredients["units"][i] }}</td>
             </tr>
           {% endfor %}
         </table>

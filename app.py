@@ -112,7 +112,7 @@ def signuppost():
     return flask.redirect("/")
 
 
-@app.route("/logout")  # logout POST
+@app.route("/logout")
 @login_required
 def logout():
     logout_user()
@@ -142,29 +142,26 @@ def saverecipes():
     return jsonreturn
 
 
-@app.route("/saveingredients", methods=["POST"])
+@app.route("/delingredient", methods=["POST"])
 @login_required
-def saveingredients():
-    error_messages = []
-    del_ingredients = json.loads(flask.request.data)["delIngredients"]
-    add_ingredients = json.loads(flask.request.data)["addIngredients"]
+def delingredient():
+    ingredient_name = flask.request.form["ingredient_name"]
+    if get_ingredient(current_user.email, ingredient_name) is not None:
+        db.session.delete(get_ingredient(current_user.email, ingredient_name))
+        db.session.commit()
+        flask.flash("Ingredient removed.")
+    else:
+        flask.flash("Failed to delete ingredient.")
+    return flask.redirect("/grocerylist")
 
-    for i in del_ingredients:
-        db.session.delete(get_ingredient((current_user.email, i["name"])))
-    for i in add_ingredients:
-        db.session.add(
-            set_ingredient((current_user.email, i["name"], i["quantity"], i["units"]))
-        )
-    db.session.commit()
 
-    current_ingredients = get_ingredient_names(current_user.email)
-    jsonreturn = flask.jsonify(
-        {
-            "newRecipeList": current_ingredients,
-            "errorMessages": error_messages,
-        }
-    )
-    return jsonreturn
+@app.route("/addingredient", methods=["POST"])
+@login_required
+def addingredient():
+    ingredient_name = flask.request.form["ingredient_name"]
+    if get_ingredient(current_user.email, ingredient_name) is None:
+        db.session.add(set_ingredient(current_user.email, ingredient_name))
+        db.session.commit()
 
 
 @app.route("/searchrecipes", methods=["POST"])
@@ -184,7 +181,7 @@ def searchrecipes():
 def recipe():
     recipe_id = flask.request.form["recipeid"]  # whatever the field name is
     data = recipesInfo(recipe_id)
-    return flask.render_template("recipe.html")
+    return flask.render_template("recipe.html", data=data)
 
 
 @app.route("/recipelist")
