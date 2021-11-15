@@ -22,6 +22,11 @@ def del_user(email):
         db.session.commit()
 
 
+def user_exists(email):
+    this_user = User.query.filter_by(email=email).first()
+    return this_user != None
+
+
 def add_recipe(email, recipe_id):
     user_has_recipe = (
         SavedRecipe.query.filter_by(email=email, recipe_id=recipe_id).first() != None
