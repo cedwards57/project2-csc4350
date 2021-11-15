@@ -71,7 +71,7 @@ app.register_blueprint(bp)
 
 
 @app.route("/")
-def index():
+def main():
     if current_user.is_authenticated:
         return flask.redirect("/grocerylist")
     else:
@@ -182,20 +182,6 @@ def recipe():
     recipe_id = flask.request.form["recipeid"]  # whatever the field name is
     data = recipesInfo(recipe_id)
     return flask.render_template("recipe.html", data=data)
-
-
-@app.route("/recipelist")
-@login_required
-def recipelist():
-    recipe_ids = get_recipe_ids(current_user.email)
-    ingredient_names = get_ingredient_names(current_user.email)
-    data = {
-        "email": current_user.email,
-        "name": current_user.name,
-        "recipe_ids": recipe_ids,
-        "ingredient_names": ingredient_names,
-    }
-    return flask.render_template("index.html", data=data)
 
 
 @app.route("/grocerylist")
