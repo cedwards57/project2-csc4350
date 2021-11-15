@@ -36,7 +36,7 @@ db_init(app)
 
 @bp.route("/recipelist")
 def recipelist():
-    DATA = {"name": "Hewwo"}
+    DATA = {"name": "", "recipes": get_recipe_ids("")}  # name, email
     data = json.dumps(DATA)
     return flask.render_template("index.html", data=data)
 
@@ -47,7 +47,7 @@ app.register_blueprint(bp)
 @app.route("/")
 def index():
     if True:  # if user is logged in:
-        return flask.redirect("/recipelist")
+        return flask.redirect("/grocerylist")
     else:
         return flask.redirect("/login")
 
@@ -114,12 +114,16 @@ def searchrecipes():
     query = json.loads(flask.request.data)["query"]
     result_ids = recipesSearch(query)
     recipes_info = [recipesInfo(i) for i in result_ids]
-    jsonreturn = flask.jsonify({"results": recipes_info})  # data.results gives a list
+    jsonreturn = flask.jsonify(
+        {"results": recipes_info}
+    )  # data.results gives a list of info dicts
     return jsonreturn
 
 
 @app.route("/recipe")
 def recipe():
+    recipe_id = flask.request.form["recipeid"]  # whatever the field name is
+    data = recipesInfo(recipe_id)
     return flask.render_template("recipe.html")
 
 
