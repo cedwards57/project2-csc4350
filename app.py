@@ -127,13 +127,36 @@ def recipe():
     return flask.render_template("recipe.html")
 
 
-@app.route("/grocerylist")
+@app.route("/recipelist")
+# login required
+def recipelist():
+    recipe_ids = get_recipe_ids("")  # email
+    ingredient_ids = get_ingredient_ids("")
+    return flask.render_template("index.html", data=data)
+
+
+@app.route("/grocerylist", methods=["POST"])
 # login required
 def grocerylist():
-    recipe_ids = get_recipe_ids("")  # email
-    DATA = {"": ""}
-    data = json.dumps(DATA)
-    return flask.render_template("index.html", data=data)
+    person = "thispersonsemail@google.com"
+    listForTable = []
+    # list of ingredients in the database for the email of the user
+    recipe_ids = get_ingredient_ids(person)  # email
+
+    # the for loop goes throught the list of ingredients that were returned from the db
+    # and creates a combines them with their quantity and units
+    for item in recipe_ids:
+        temp = [item]
+        temp.append(get_ingredient_quantity(person, item))
+        temp.append(get_ingredient_units(person, item))
+        listForTable.append(temp)
+
+    return flask.render_template(
+        "groceryList.html",
+        length=len(listForTable),
+        length2=len(listForTable[0]),
+        listForTable=listForTable,
+    )
 
 
 app.run(
