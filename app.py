@@ -26,6 +26,8 @@ from db_functions import (
     get_ingredients,
     set_ingredient,
     set_recipe,
+    user_has_ingredients,
+    user_has_recipes,
 )
 from recipeInfo import recipesInfo
 from recipeInstructions import instructions
@@ -85,9 +87,7 @@ def login():
 def loginpost():
     entered_email = flask.request.form["email"]
     entered_name = flask.request.form["name"]
-    if not user_exists(entered_name) or not user_info_correct(
-        entered_email, entered_name
-    ):
+    if not user_info_correct(entered_email, entered_name):
         flask.flash("Incorrect username or password.")
         return flask.redirect("/login")
     login_user(get_user(entered_email))
@@ -204,12 +204,19 @@ def recipelist():
 @app.route("/grocerylist")
 @login_required
 def grocerylist():
-    ingredients_info = get_ingredients(current_user.email)
-    ingredients = {
-        "names": [i["name"] for i in ingredients_info],
-        "quantities": [i["quantity"] for i in ingredients_info],
-        "units": [i["units"] for i in ingredients_info],
-    }
+    if user_has_ingredients(current_user.email):
+        ingredients_info = get_ingredients(current_user.email)
+        ingredients = {
+            "names": [i["name"] for i in ingredients_info],
+            "quantities": [i["quantity"] for i in ingredients_info],
+            "units": [i["units"] for i in ingredients_info],
+        }
+    else:
+        ingredients = {
+            "names": ["Add ingredients from the recipe page!"],
+            "quantities": ["--"],
+            "units": ["--"],
+        }
     return flask.render_template(
         "groceryList.html",
         ingredients=ingredients,
