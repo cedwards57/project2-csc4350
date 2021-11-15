@@ -48,17 +48,6 @@ with app.app_context():
     db.create_all()
 
 
-@login_manager.user_loader
-def load_user(user_id):
-    return find_load_user(user_id)
-
-
-@login_manager.unauthorized_handler
-def unauthorized_callback():
-    flask.flash("You must be logged in to view that page.")
-    return flask.redirect("/login")
-
-
 @bp.route("/recipelist")
 @login_required
 def recipelist():
@@ -68,6 +57,17 @@ def recipelist():
 
 
 app.register_blueprint(bp)
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    return find_load_user(user_id)
+
+
+@login_manager.unauthorized_handler
+def unauthorized_callback():
+    flask.flash("You must be logged in to view that page.")
+    return flask.redirect("/login")
 
 
 @app.route("/")
