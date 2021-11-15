@@ -11,24 +11,21 @@ import os
 from models import db
 import json
 from db_functions import (
-    add_user,
-    del_user,
     get_name,
     user_exists,
     get_user,
     set_user,
-    add_recipe,
-    del_recipe,
-    add_ingredient,
-    del_ingredient,
-    update_ingredient_quantity_and_units,
+    get_ingredient,
     get_ingredient_quantity,
     get_ingredient_units,
+    get_recipe,
     get_recipe_ids,
     get_ingredient_names,
     user_info_correct,
     find_load_user,
     get_ingredients,
+    set_ingredient,
+    set_recipe,
 )
 from recipeInfo import recipesInfo
 from recipeInstructions import instructions
@@ -130,11 +127,11 @@ def saverecipes():
     add_recipes = json.loads(flask.request.data)["addRecipes"]
 
     for i in del_recipes:
-        del_recipe("", i)
+        db.session.delete(get_recipe(current_user.email, i))
     for i in add_recipes:
-        add_recipe("", i)
+        db.session.add(set_recipe(current_user.email, i))
 
-    current_recipes = get_recipe_ids("")  # current user email
+    current_recipes = get_recipe_ids(current_user.email)
 
     jsonreturn = flask.jsonify(
         {
@@ -153,11 +150,14 @@ def saveingredients():
     add_ingredients = json.loads(flask.request.data)["addIngredients"]
 
     for i in del_ingredients:
-        del_ingredient("", i["name"])
+        db.session.delete(get_ingredient((current_user.email, i["name"])))
     for i in add_ingredients:
-        add_ingredient("", i["name"], i["quantity"], i["units"])
+        db.session.add(
+            set_ingredient((current_user.email, i["name"], i["quantity"], i["units"]))
+        )
+    db.session.commit()
 
-    current_ingredients = get_ingredient_names("")  # current user email
+    current_ingredients = get_ingredient_names(current_user.email)
     jsonreturn = flask.jsonify(
         {
             "newRecipeList": current_ingredients,
@@ -190,32 +190,30 @@ def recipe():
 @app.route("/recipelist")
 @login_required
 def recipelist():
-    recipe_ids = get_recipe_ids("")  # email
-    ingredient_ids = get_ingredient_names("")
+    recipe_ids = get_recipe_ids(current_user.email)
+    ingredient_names = get_ingredient_names(current_user.email)
+    data = {
+        "email": current_user.email,
+        "name": current_user.name,
+        "recipe_ids": recipe_ids,
+        "ingredient_names": ingredient_names,
+    }
     return flask.render_template("index.html", data=data)
 
 
 @app.route("/grocerylist")
 @login_required
 def grocerylist():
-    person = current_user.email
-    listForTable = []
-    # list of ingredients in the database for the email of the user
-    recipe_ids = get_ingredient_names(person)  # email
-
-    # the for loop goes throught the list of ingredients that were returned from the db
-    # and creates a combines them with their quantity and units
-    for item in recipe_ids:
-        temp = [item]
-        temp.append(get_ingredient_quantity(person, item))
-        temp.append(get_ingredient_units(person, item))
-        listForTable.append(temp)
-
+    ingredients_info = get_ingredients(current_user.email)
+    ingredients = {
+        "names": [i["name"] for i in ingredients_info],
+        "quantities": [i["quantity"] for i in ingredients_info],
+        "units": [i["units"] for i in ingredients_info],
+    }
     return flask.render_template(
         "groceryList.html",
-        length=len(listForTable),
-        length2=len(listForTable[0]),
-        listForTable=listForTable,
+        ingredients=ingredients,
+        len=len(ingredients["names"]),
     )
 
 
