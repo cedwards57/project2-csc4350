@@ -6,9 +6,10 @@ import GroceryList from './components/GroceryList'
 import RecipeList from './components/RecipeList'
 
 function App() {
-
+  const args = JSON.parse(document.getElementById("data").text);
+  
   return (
-    <h1>Placeholder</h1>
+    <h1>{args["name"]} {args["recipes"]}</h1>
   );
 }
 
