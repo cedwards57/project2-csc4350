@@ -66,7 +66,18 @@ def login_post():
 
 @app.route("/save", methods=["POST"])
 def save():
-    ...
+   recipe_id= flask.request.form.get("recipe_id")
+    try:
+        access_token = get_access_token()
+        get_song_data(artist_id, access_token)
+    except Exception:
+        flask.flash("Invalid recipe ID entered")
+        return flask.redirect(flask.url_for("index"))
+
+    username = current_user.username
+    db.session.add(Recipes(recipe_id=recipe_id, username=username))
+    db.session.commit()
+    return flask.redirect(flask.url_for("index"))
 
 
 @app.route("/")
