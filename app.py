@@ -48,17 +48,6 @@ with app.app_context():
     db.create_all()
 
 
-@bp.route("/recipelist")
-@login_required
-def recipelist():
-    DATA = {"name": current_user.name, "recipes": get_recipe_ids(current_user.email)}
-    data = json.dumps(DATA)
-    return flask.render_template("index.html", data=data)
-
-
-app.register_blueprint(bp)
-
-
 @login_manager.user_loader
 def load_user(user_id):
     return find_load_user(user_id)
