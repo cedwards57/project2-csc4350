@@ -9,8 +9,6 @@
     "prettier": "^2.2.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
-    "react-router": "^6.0.0",
-    "react-router-dom": "^6.0.0",
     "react-scripts": "^4.0.2",
     "web-vitals": "^1.1.0"
   },
@@ -37,6 +35,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "proxy": "http://localhost:8081"
+  }
 }

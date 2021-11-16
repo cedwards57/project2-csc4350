@@ -5,8 +5,8 @@ db = SQLAlchemy()
 
 
 class User(db.Model, UserMixin):
-    email = db.Column(db.String(30), primary_key="True")
-    name = db.Column(db.String(30))
+    email = db.Column(db.String(50), primary_key="True")
+    name = db.Column(db.String(50))
 
     def __repr__(self):
         return "<User %r %r>" % (self.email)
@@ -16,24 +16,24 @@ class User(db.Model, UserMixin):
 
 
 class SavedRecipe(db.Model):
-    email = db.Column(db.String(30), primary_key="True")
+    email = db.Column(db.String(50), primary_key="True")
     recipe_id = db.Column(db.String(80), primary_key="True")
 
     def __repr__(self):
         return "<SavedRecipe %r %r>" % (self.email, self.recipe_id)
 
-    def get_artist_id(self):
+    def get_recipe_id(self):
         return self.recipe_id
 
 
-class SavedIngredient(db.Model):
-    email = db.Column(db.String(30), primary_key="True")
-    ingredient_id = db.Column(db.String(80), primary_key="True")
+class SavedIngredients(db.Model):
+    email = db.Column(db.String(50), primary_key="True")
+    ingredient_name = db.Column(db.String(80), primary_key="True")
     quantity = db.Column(db.Integer)
-    units = db.Column(db.String(80))
+    units = db.Column(db.String(16))
 
     def __repr__(self):
-        return "<SavedIngredient %r %r>" % (self.email, self.ingredient_id)
+        return "<SavedIngredients %r %r>" % (self.email, self.ingredient_name)
 
-    def get_artist_id(self):
-        return self.ingredient_id
+    def get_ingredient_name(self):
+        return self.ingredient_name

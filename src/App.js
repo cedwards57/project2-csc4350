@@ -1,103 +1,81 @@
 import logo from './logo.svg';
 import './App.css';
 import { useState, useRef } from 'react';
-import { BrowserRouter as Router, Switch, Route, Link, Redirect } from 'react-router-dom'
-
-
- function getMealData() {
-    const [mealData, setMealData] = useState(null)
-    fetch('/save', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(mealData),
-    })
-      .then(response => response.json())
-      .then(data => {
-        setMealData(data)
-      })
-      .catch(() => {
-        console.log("error")
-      })
-  }
+import { ResultRecipe } from './components/ResultRecipe'
+import { UserRecipe } from './components/UserRecipe'
 
 function App() {
-  // fetches JSON data passed in by flask.render_template and loaded
-  // in public/index.html in the script with id "data"
-  var convert = require('convert-units')
-  const [amnt, setamnt] = useState('');
-  const [unt, setunt] = useState('');
-
-  function add_quantities(amnt1, unt1, amnt2, unt2){
-    if(unt1 == unt2){
-      setunt(unt1)
-      setamnt(amnt1 + amnt2)
+  const args = JSON.parse(document.getElementById("data").text);
+  const [recipeList, updateRecipeList] = useState(args.recipes);
+  const [searchRecipes, updateSearchRecipes] = useState([]);
+  const [delRecipes, updateDelRecipes] = useState([]);
+  const [addRecipes, updateAddRecipes] = useState([]);
+  const inputRef = useRef(null);
+  
+  function searchRecipe() {
+    let query = document.getElementById("searchQuery").value
+    fetch("/searchrecipes", {
+      method:"POST",
+      cache: "no-cache",
+      headers:{
+          "content_type":"application/json",
+      },
+      body:JSON.stringify({"query": query})
     }
-    else {
-      if (convert(amnt1).from(unt1).to(unt2) < 1) {
-        setunt(unt1)
-        setamnt(amnt1 + convert(amnt2).from(unt2).to(unt1))
-      }
-      else {
-        setunt(unt2)
-        setamnt(amnt2 + convert(amnt1).from(unt1).to(unt2))
-      }
-    }
+    ).then(response => {
+      return response.json();
+    }).then(data => {
+      updateSearchRecipes(data.results);
+    })
+  }
 
-    return {"amount" : amnt, "unit": unt}
+  function saveChanges() {
+    fetch("/saverecipes", {
+      method:"POST",
+      cache: "no-cache",
+      headers:{
+          "content_type":"application/json",
+      },
+      body:JSON.stringify({"delRecipes": delRecipes, "addRecipes": addRecipes})
+    }
+    ).then(response => {
+      return response.json();
+    }).then(data => {
+      updateRecipeList(data.newRecipeList);
+      updateAddRecipes([]);
+      updateDelRecipes([]);
+    })
+  }
+
+  function addRecipe(add_recipe) {
+    let newAddRecipes = [...addRecipes, add_recipe["id"]];
+    updateAddRecipes(newAddRecipes);
+    let newRecipeList = [...recipeList, add_recipe];
+    updateRecipeList(newRecipeList);
+  }
+
+  function delRecipe(del_recipe) {
+    let newDelRecipes = [...delRecipes, del_recipe["id"]];
+    updateAddRecipes(newDelRecipes);
+    let remove_index = recipeList.indexOf(del_recipe);
+    let newRecipeList = [...recipeList];
+    newRecipeList.splice(remove_index,1);
+    updateRecipeList(newRecipeList);
+    console.log(newRecipeList);
+    console.log(delRecipes);
   }
 
   return (
-    <Router>
-      <div>
-        <nav>
-          <ul>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/about">About</Link>
-            </li>
-            <li>
-              <Link to="/users">Users</Link>
-            </li>
-          </ul>
-        </nav>
-
-        {/* A <Switch> looks through its children <Route>s and
-            renders the first one that matches the current URL. */}
-        <Switch>
-          <Route exact path="/about">
-            <About />
-          </Route>
-          <Route exact path="/users">
-            <div>
-              <p>Hello World!</p>
-              <ol>
-                <li>hey</li>
-              </ol>
-            </div>
-          </Route>
-          <Route path="/">
-            <Home />
-          </Route>
-        </Switch>
-      </div>
-    </Router>
+    <>
+    <h1>{args.name}</h1>
+    <p>This page is a work in progress. The search function may take some time to complete.</p>
+    <input type="text" id="searchQuery" placeholder="Search by ingredient..." /><button onClick={searchRecipe}>Search</button>
+    {searchRecipes.map((item, k) => <p><ResultRecipe id={item.id} name={item.title}/><button onClick={() => addRecipe(item)}>Add Recipe</button></p>)}
+    <h3>Your Recipes</h3>
+    {recipeList.map((item, j) => <p><UserRecipe id={item.id} name={item.title}/><button onClick={() => delRecipe(item)}>Delete</button></p>)}
+    <button onClick={saveChanges}>Save Changes</button>
+    </>
   );
-}
-
-function Home() {
-  return <h2>Home</h2>;
-}
-
-function About() {
-  return <h2>HELLO WORLD</h2>;
-}
-
-function Users() {
-  return (<h2>Users</h2>);
 }
 
 export default App;
