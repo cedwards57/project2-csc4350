@@ -24,6 +24,7 @@ def recipesInfo(recipe):
     recipe_info_list = {}
 
     recipe_info_list["title"] = res2_json["title"]
+    recipe_info_list["id"] = recipe
     recipe_info_list["imageURL"] = res2_json["image"]
     recipe_info_list["summary"] = res2_json["summary"]
 

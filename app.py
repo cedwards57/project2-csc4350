@@ -51,9 +51,13 @@ with app.app_context():
 @bp.route("/recipelist")
 @login_required
 def recipelist():
+    user_recipes = get_recipe_ids(current_user.email)
     DATA = {
         "name": current_user.name,
-        "recipes": get_recipe_ids(current_user.email),
+        "recipes": [
+            {"title": recipesInfo(i)["title"], "id": recipesInfo(i)["id"]}
+            for i in user_recipes
+        ],
     }
     data = json.dumps(DATA)
     return flask.render_template("index.html", data=data)
@@ -129,12 +133,16 @@ def saverecipes():
     del_recipes = json.loads(flask.request.data)["delRecipes"]
     add_recipes = json.loads(flask.request.data)["addRecipes"]
 
-    for i in del_recipes:
-        db.session.delete(get_recipe(current_user.email, i))
-    for i in add_recipes:
-        db.session.add(set_recipe(current_user.email, i))
+    for recipe in add_recipes:
+        db.session.add(set_recipe(current_user.email, recipe))
+    for recipe in del_recipes:
+        db.session.delete(get_recipe(current_user.email, recipe))
+    db.session.commit()
 
-    current_recipes = get_recipe_ids(current_user.email)
+    current_recipes = [
+        {"title": recipesInfo(i)["title"], "id": recipesInfo(i)["id"]}
+        for i in get_recipe_ids(current_user.email)
+    ]
 
     jsonreturn = flask.jsonify(
         {
@@ -172,7 +180,10 @@ def addingredient():
 def searchrecipes():
     query = json.loads(flask.request.data)["query"]
     result_ids = recipesSearch(query)
-    recipes_info = [recipesInfo(i) for i in result_ids]
+    recipes_info = [
+        {"title": recipesInfo(i)["title"], "id": recipesInfo(i)["id"]}
+        for i in result_ids
+    ]
     jsonreturn = flask.jsonify(
         {"results": recipes_info}
     )  # data.results gives a list of info dicts
@@ -182,7 +193,7 @@ def searchrecipes():
 @app.route("/recipe")
 @login_required
 def recipe():
-    recipe_id = flask.request.form["recipeid"]  # whatever the field name is
+    recipe_id = flask.request.args["recipeid"]
     data = recipesInfo(recipe_id)
     return flask.render_template("recipe.html", data=data)
 
