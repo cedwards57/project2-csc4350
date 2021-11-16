@@ -166,13 +166,14 @@ def delingredient():
     return flask.redirect("/grocerylist")
 
 
-@app.route("/addingredient", methods=["POST"])
+@app.route("/addingredients", methods=["POST"])
 @login_required
 def addingredient():
-    ingredient_name = flask.request.form["ingredient_name"]
-    if get_ingredient(current_user.email, ingredient_name) is None:
-        db.session.add(set_ingredient(current_user.email, ingredient_name))
-        db.session.commit()
+    ingredient_names = flask.request.form["ingredients"]
+    for ingredient in ingredient_names:
+        if get_ingredient(current_user.email, ingredient) is None:
+            db.session.add(set_ingredient(current_user.email, ingredient))
+    db.session.commit()
 
 
 @app.route("/searchrecipes", methods=["POST"])
