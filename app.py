@@ -6,6 +6,9 @@ from flask_login import (
     login_user,
     logout_user,
 )
+from flask import Flask, redirect, request, url_for
+from oauthlib.oauth2 import WebApplicationClient
+import requests
 from dotenv import find_dotenv, load_dotenv
 import os
 from models import db
@@ -36,6 +39,10 @@ from recipeIngredients import recipeIngredients
 
 load_dotenv(find_dotenv())
 
+GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID", None)
+GOOGLE_CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET", None)
+GOOGLE_DISCOVERY_URL = "https://accounts.google.com/.well-known/openid-configuration"
+
 app = flask.Flask(__name__, static_folder="./build/static")
 bp = flask.Blueprint("bp", __name__, template_folder="./build")
 app.config["SEND_FILE_MAX_AGE_DEFAULT"] = 0
@@ -46,6 +53,8 @@ login_manager.init_app(app)
 db.init_app(app)
 with app.app_context():
     db.create_all()
+
+client = WebApplicationClient(GOOGLE_CLIENT_ID)
 
 
 @bp.route("/recipelist")
@@ -71,6 +80,10 @@ def load_user(user_id):
     return find_load_user(user_id)
 
 
+def get_google_provider_cfg():
+    return requests.get(GOOGLE_DISCOVERY_URL).json()
+
+
 @login_manager.unauthorized_handler
 def unauthorized_callback():
     flask.flash("You must be logged in to view that page.")
@@ -81,17 +94,26 @@ def unauthorized_callback():
 def main():
     if current_user.is_authenticated:
         return flask.redirect("/grocerylist")
-    else:
-        return flask.redirect("/login")
+    return flask.render_template("login.html")
 
 
 @app.route("/login")
 def login():
-    return flask.render_template("login.html")
+    # Find out what URL to hit for Google login
+    google_provider_cfg = get_google_provider_cfg()
+    authorization_endpoint = google_provider_cfg["authorization_endpoint"]
 
+    # Use library to construct the request for Google login and provide
+    # scopes that let you retrieve user's profile from Google
+    request_uri = client.prepare_request_uri(
+        authorization_endpoint,
+        redirect_uri=request.base_url + "/callback",
+        scope=["openid", "email", "profile"],
+    )
+    return redirect(request_uri)
 
-@app.route("/loginpost", methods=["POST"])  # login POST
-def loginpost():
+    # @app.route("/loginpost", methods=["POST"])  # login POST
+    # def loginpost():
     entered_email = flask.request.form["email"]
     entered_name = flask.request.form["name"]
     if not user_info_correct(entered_email, entered_name):
@@ -101,13 +123,53 @@ def loginpost():
     return flask.redirect("/")
 
 
-@app.route("/signup")
-def signup():
+@app.route("/login/callback")
+def callback():
+    # Get authorization code Google sent back to you
+    code = request.args.get("code")
+    # Find out what URL to hit to get tokens that allow you to ask for
+    # things on behalf of a user
+    google_provider_cfg = get_google_provider_cfg()
+    token_endpoint = google_provider_cfg["token_endpoint"]
+    # Prepare and send a request to get tokens! Yay tokens!
+    token_url, headers, body = client.prepare_token_request(
+        token_endpoint,
+        authorization_response=request.url,
+        redirect_url=request.base_url,
+        code=code,
+    )
+    token_response = requests.post(
+        token_url,
+        headers=headers,
+        data=body,
+        auth=(GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET),
+    )
+    # Parse the tokens!
+    client.parse_request_body_response(json.dumps(token_response.json()))
+    # Now that you have tokens (yay) let's find and hit the URL
+    # from Google that gives you the user's profile information,
+    # including their Google profile image and email
+    userinfo_endpoint = google_provider_cfg["userinfo_endpoint"]
+    uri, headers, body = client.add_token(userinfo_endpoint)
+    userinfo_response = requests.get(uri, headers=headers, data=body)
+    # You want to make sure their email is verified.
+    # The user authenticated with Google, authorized your
+    # app, and now you've verified their email through Google!
+    if userinfo_response.json().get("email_verified"):
+        users_email = userinfo_response.json()["email"]
+        users_name = userinfo_response.json()["given_name"]
+        if not user_exists(users_email):
+            db.session.add(set_user(users_email, users_name))
+            db.session.commit()
+        login_user(get_user(users_email))
+    return flask.redirect("/")
+
+    # @app.route("/signup")
+    # def signup():
     return flask.render_template("signup.html")
 
-
-@app.route("/signuppost", methods=["POST"])
-def signuppost():
+    # @app.route("/signuppost", methods=["POST"])
+    # def signuppost():
     entered_email = flask.request.form["email"]
     entered_name = flask.request.form["name"]
     if user_exists(entered_email):
@@ -225,4 +287,5 @@ def grocerylist():
 app.run(
     host=os.getenv("IP", "0.0.0.0"),
     port=int(os.getenv("PORT", 8081)),
+    ssl_context="adhoc",
 )

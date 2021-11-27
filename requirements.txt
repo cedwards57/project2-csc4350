@@ -4,3 +4,6 @@ requests
 flask-login
 flask-sqlalchemy
 psycopg2
+oauthlib
+Flask-Login
+pyOpenSSL

@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <script type="text/javascript" src="/static/enter.js"></script>
-        <link rel="stylesheet" href="/static/enter.css" type="text/css" />
-    </head>
-    <body>
-        <div class="logbox">
+
+<head>
+    <script type="text/javascript" src="/static/enter.js"></script>
+    <link rel="stylesheet" href="/static/enter.css" type="text/css" />
+</head>
+
+<body>
+    <!--<div class="logbox">
         <form method="POST" action="/loginpost">
-            <input type="text" name="email" placeholder="Email"/><br/>
-            <input type="text" name="name" placeholder="Name"/><br/>
+            <input type="text" name="email" placeholder="Email" /><br />
+            <input type="text" name="name" placeholder="Name" /><br />
             <input type="submit" value="Log In">
         </form>
         {% with messages = get_flashed_messages() %}
@@ -23,6 +25,8 @@
         {% endif %}
         {% endwith %}
         <div class="loglink"><a href="/signup">Sign Up</a></div>
-    </div>
-    </body>
+    </div> -->
+    <a href="/login">Click here to login/signup using your Google account!</a>
+</body>
+
 </html>
