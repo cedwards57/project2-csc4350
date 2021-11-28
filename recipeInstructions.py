@@ -24,14 +24,19 @@ def instructions(recipe):
 
     ingredients = []
 
-    for ing in res_json["ingredients"]:
-        ingredients.append(
-            {
-                "name": ing["name"],
-                "quantity": ing["amount"]["us"]["value"],
-                "units": ing["amount"]["us"]["unit"],
-            }
-        )
+    try:
+
+        for ing in res_json["ingredients"]:
+            ingredients.append(
+                {
+                    "name": ing["name"],
+                    "quantity": ing["amount"]["us"]["value"],
+                    "units": ing["amount"]["us"]["unit"],
+                }
+            )
+
+    except res_json['status'] == 'failure':
+        pass
 
     # if you would like to see the output json for the query that is run then uncomment the next line and past the result into testResult, over the existing text.
     # json_formatted_str = json.dumps(res_json, indent=2)
