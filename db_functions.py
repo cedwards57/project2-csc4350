@@ -1,33 +1,31 @@
-from models import User, SavedRecipe, SavedIngredients, db
+from models import UserInfos, SavedRecipe, SavedIngredients, db
+from encryption import encrypt_password, decrypt_password
 
 
 def find_load_user(user_id):
-    return User.query.get(user_id)
+    return UserInfos.query.get(user_id)
 
 
 def user_exists(email):
-    this_user = User.query.filter_by(email=email).first()
+    this_user = UserInfos.query.filter_by(email=email).first()
     return this_user != None
 
 
-def user_info_correct(email, name):
-    this_user = User.query.filter_by(email=email, name=name).first()
-    return this_user != None
+def user_info_correct(email, password):
+    this_user = UserInfos.query.filter_by(email=email).first()
+    if this_user != None:
+        decrypted_pw = decrypt_password(this_user.password)
+        return password == decrypted_pw
+    return False
 
 
 def get_user(email):
-    return User.query.filter_by(email=email).first()
+    return UserInfos.query.filter_by(email=email).first()
 
 
-def set_user(email, name):
-    return User(email=email, name=name)
-
-
-def get_name(email):
-    this_user = User.query.filter_by(email=email).first()
-    if this_user is None:
-        return None
-    return this_user.name
+def set_user(email, password):
+    encrypted_pw = encrypt_password(password)
+    return UserInfos(email=email, password=encrypted_pw)
 
 
 def get_ingredient_quantity(email, ingredient_name):
