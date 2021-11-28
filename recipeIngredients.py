@@ -21,17 +21,20 @@ def recipeIngredients(rID):
     res_json = response.json()
 
     ingredients = []
+    
+    try:
 
-    for ing in res_json["ingredients"]:
-        ingredients.append(
-            {
-                "name": ing["name"],
-                "recipe_id": rID,
-                "quantity": ing["amount"]["us"]["value"],
-                "units": ing["amount"]["us"]["unit"],
-            }
-        )
-
+        for ing in res_json["ingredients"]:
+            ingredients.append(
+                {
+                    "name": ing["name"],
+                    "recipe_id": rID,
+                    "quantity": ing["amount"]["us"]["value"],
+                    "units": ing["amount"]["us"]["unit"],
+                }
+            )
+    except res_json['status'] == 'failure':
+        pass
     # # if you would like to see what the entier json returns uncomment the next two lines.
     # res_json_fmtd = json.dumps(res_json, indent=2)
     # print(ingredients)
