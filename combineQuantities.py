@@ -31,4 +31,4 @@ def add_quantities(amnt1, unt1, amnt2, unt2):
         funit = unt2
         famnt = amnt2 + (amnt1*mtrc_cnvrt[mtrc_unt.index(unt1)])
 
-    return {'amount': famnt, 'units':funit}
+    return {'amount': famnt, 'units': funit}

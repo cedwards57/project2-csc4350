@@ -26,14 +26,19 @@ def recipesSearch(items):
     res1_json = res1.json()
 
     searchResultIDs = []
+    
+    try:
 
-    for meals in res1_json["results"]:
-        searchResultIDs.append(meals["id"])
+        for meals in res1_json["results"]:
+            searchResultIDs.append(meals["id"])
 
-    # # if you would like to see the output json for the query that is run then uncomment the next line and past the result into testResult, over the existing text.
-    # json_formatted_str = json.dumps(res1_json, indent=2)
-    # print(searchResultID)
+        # # if you would like to see the output json for the query that is run then uncomment the next line and past the result into testResult, over the existing text.
+        # json_formatted_str = json.dumps(res1_json, indent=2)
+        # print(searchResultIDs)
 
+    except res1_json['status'] == 'failure':
+        pass
+    
     return searchResultIDs
 
 
