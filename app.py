@@ -32,6 +32,7 @@ from recipeInfo import recipesInfo
 from recipeInstructions import instructions
 from recipesSearch import recipesSearch
 from recipeIngredients import recipeIngredients
+from combineQuantities import add_quantities
 
 load_dotenv(find_dotenv())
 
@@ -92,8 +93,8 @@ def login():
 @app.route("/loginpost", methods=["POST"])  # login POST
 def loginpost():
     entered_email = flask.request.form["email"]
-    entered_password = flask.request.form["password"]
-    if not user_info_correct(entered_email, entered_password):
+    entered_name = flask.request.form["name"]
+    if not user_info_correct(entered_email, entered_name):
         flask.flash("Incorrect username or password.")
         return flask.redirect("/login")
     login_user(get_user(entered_email))
@@ -108,11 +109,11 @@ def signup():
 @app.route("/signuppost", methods=["POST"])
 def signuppost():
     entered_email = flask.request.form["email"]
-    entered_password = flask.request.form["password"]
+    entered_name = flask.request.form["name"]
     if user_exists(entered_email):
         flask.flash("That username is taken. Sorry!")
         return flask.redirect("/signup")
-    db.session.add(set_user(entered_email, entered_password))
+    db.session.add(set_user(entered_email, entered_name))
     db.session.commit()
     login_user(get_user(entered_email))
     return flask.redirect("/")
@@ -137,11 +138,15 @@ def saverecipes():
     for recipe in del_recipes:
         db.session.delete(get_recipe(current_user.email, recipe))
     db.session.commit()
-
-    current_recipes = [
-        {"title": recipesInfo(i)["title"], "id": recipesInfo(i)["id"]}
-        for i in get_recipe_ids(current_user.email)
-    ]
+    current_ids = get_recipe_ids(current_user.email)
+    current_recipes = []
+    for id in current_ids:
+        this_recipe_info = recipesInfo(id)
+        append_recipe = {
+            "title": this_recipe_info["title"],
+            "id": this_recipe_info["id"],
+        }
+        current_recipes.append(append_recipe)
 
     jsonreturn = flask.jsonify(
         {
@@ -168,11 +173,33 @@ def delingredient():
 @app.route("/addingredients", methods=["POST"])
 @login_required
 def addingredient():
-    ingredient_names = flask.request.form["ingredients"]
-    for ingredient in ingredient_names:
-        if get_ingredient(current_user.email, ingredient) is None:
-            db.session.add(set_ingredient(current_user.email, ingredient))
-    db.session.commit()
+    add_indexes = [int(i) for i in flask.request.form.getlist("checks")]
+    ingredients = flask.request.form.getlist("ingredient")
+    quantities = [int(i) for i in flask.request.form.getlist("quantity")]
+    units = flask.request.form.getlist("units")
+
+    for i in add_indexes:
+        ingredient_in_db = get_ingredient(current_user.email, ingredients[i])
+
+        if ingredient_in_db is not None:
+            new_quantity = add_quantities(
+                ingredient_in_db.quantity,
+                ingredient_in_db.units,
+                quantities[i],
+                units[i],
+            )
+            ingredient_in_db.quantity = new_quantity["amount"]
+            ingredient_in_db.units = new_quantity["units"]
+            db.session.commit()
+
+        if ingredient_in_db is None:
+            new_ingredient = set_ingredient(
+                current_user.email, ingredients[i], quantities[i], units[i]
+            )
+            db.session.add(new_ingredient)
+            db.session.commit()
+
+    flask.redirect("/recipelist")
 
 
 @app.route("/searchrecipes", methods=["POST"])
@@ -180,10 +207,12 @@ def addingredient():
 def searchrecipes():
     query = json.loads(flask.request.data)["query"]
     result_ids = recipesSearch(query)
-    recipes_info = [
-        {"title": recipesInfo(i)["title"], "id": recipesInfo(i)["id"]}
-        for i in result_ids
-    ]
+    recipes_info = []
+    for id in result_ids:
+        recipe_info = recipesInfo(id)
+        this_recipe = {"title": recipe_info["title"], "id": recipe_info["id"]}
+        recipes_info.append(this_recipe)
+
     jsonreturn = flask.jsonify(
         {"results": recipes_info}
     )  # data.results gives a list of info dicts
