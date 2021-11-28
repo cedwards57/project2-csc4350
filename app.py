@@ -53,7 +53,7 @@ with app.app_context():
 def recipelist():
     user_recipes = get_recipe_ids(current_user.email)
     DATA = {
-        "name": current_user.name,
+        "name": current_user.email,
         "recipes": [
             {"title": recipesInfo(i)["title"], "id": recipesInfo(i)["id"]}
             for i in user_recipes
@@ -173,44 +173,33 @@ def delingredient():
 @app.route("/addingredients", methods=["POST"])
 @login_required
 def addingredient():
-    print(flask.request.form.getlist("checks"))
-    print(bool(flask.request.form.getlist("ingredient")))
-    ingredient_names = []
-    # expects
-    for ingredient in ingredient_names:
-        this_ingredient = get_ingredient(current_user.email, ingredient)
-        if this_ingredient is None:
-            db.session.add(
-                set_ingredient(
-                    current_user.email,
-                    ingredient["name"],
-                    ingredient["quantity"],
-                    ingredient["units"],
-                )
-            )
-        else:
+    add_indexes = [int(i) for i in flask.request.form.getlist("checks")]
+    ingredients = flask.request.form.getlist("ingredient")
+    quantities = [int(i) for i in flask.request.form.getlist("quantity")]
+    units = flask.request.form.getlist("units")
+
+    for i in add_indexes:
+        ingredient_in_db = get_ingredient(current_user.email, ingredients[i])
+
+        if ingredient_in_db is not None:
             new_quantity = add_quantities(
-                ingredient["quantity"],
-                ingredient["units"],
-                this_ingredient.quantity,
-                this_ingredient.units,
+                ingredient_in_db.quantity,
+                ingredient_in_db.units,
+                quantities[i],
+                units[i],
             )
-            db.session.add(
-                set_ingredient(
-                    current_user.email,
-                    ingredient["name"],
-                    new_quantity["amount"],
-                    new_quantity["units"],
-                )
+            ingredient_in_db.quantity = new_quantity["amount"]
+            ingredient_in_db.units = new_quantity["units"]
+            db.session.commit()
+
+        if ingredient_in_db is None:
+            new_ingredient = set_ingredient(
+                current_user.email, ingredients[i], quantities[i], units[i]
             )
-    db.session.commit()
+            db.session.add(new_ingredient)
+            db.session.commit()
+
     flask.redirect("/recipelist")
-
-
-@app.route("/test")
-@login_required
-def test():
-    return flask.render_template("test.html")
 
 
 @app.route("/searchrecipes", methods=["POST"])
