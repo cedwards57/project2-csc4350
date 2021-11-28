@@ -7,8 +7,8 @@
     <body>
         <div class="logbox">
         <form method="POST" action="/loginpost">
-            <input type="text" name="email" placeholder="Email"/><br/>
-            <input type="text" name="name" placeholder="Name"/><br/>
+            <input type="text" name="email" placeholder="Username"/><br/>
+            <input type="password" name="password" placeholder="Password"/><br/>
             <input type="submit" value="Log In">
         </form>
         {% with messages = get_flashed_messages() %}

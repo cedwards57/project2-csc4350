@@ -11,7 +11,6 @@ import os
 from models import db
 import json
 from db_functions import (
-    get_name,
     user_exists,
     get_user,
     set_user,
@@ -53,7 +52,7 @@ with app.app_context():
 def recipelist():
     user_recipes = get_recipe_ids(current_user.email)
     DATA = {
-        "name": current_user.name,
+        "name": current_user.email,
         "recipes": [
             {"title": recipesInfo(i)["title"], "id": recipesInfo(i)["id"]}
             for i in user_recipes
@@ -93,8 +92,8 @@ def login():
 @app.route("/loginpost", methods=["POST"])  # login POST
 def loginpost():
     entered_email = flask.request.form["email"]
-    entered_name = flask.request.form["name"]
-    if not user_info_correct(entered_email, entered_name):
+    entered_password = flask.request.form["password"]
+    if not user_info_correct(entered_email, entered_password):
         flask.flash("Incorrect username or password.")
         return flask.redirect("/login")
     login_user(get_user(entered_email))
@@ -109,11 +108,11 @@ def signup():
 @app.route("/signuppost", methods=["POST"])
 def signuppost():
     entered_email = flask.request.form["email"]
-    entered_name = flask.request.form["name"]
+    entered_password = flask.request.form["password"]
     if user_exists(entered_email):
         flask.flash("That username is taken. Sorry!")
         return flask.redirect("/signup")
-    db.session.add(set_user(entered_email, entered_name))
+    db.session.add(set_user(entered_email, entered_password))
     db.session.commit()
     login_user(get_user(entered_email))
     return flask.redirect("/")
