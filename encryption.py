@@ -17,6 +17,3 @@ def decrypt_password(encrypted_password):
     fernet = Fernet(password_key)
     password = fernet.decrypt(encrypted_password).decode()
     return password
-
-
-print(encrypt_password("pfsjdfs"))
