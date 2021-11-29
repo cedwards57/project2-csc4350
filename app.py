@@ -11,6 +11,7 @@ import os
 from models import db
 import json
 from db_functions import (
+    is_disliked,
     user_exists,
     get_user,
     set_user,
@@ -27,6 +28,14 @@ from db_functions import (
     set_recipe,
     user_has_ingredients,
     user_has_recipes,
+    set_like,
+    get_like,
+    set_dislike,
+    get_likes_list,
+    get_dislikes_list,
+    get_like_value,
+    is_liked,
+    is_disliked,
 )
 from recipeInfo import recipesInfo
 from recipeInstructions import instructions
@@ -175,7 +184,7 @@ def delingredient():
 def addingredient():
     add_indexes = [int(i) for i in flask.request.form.getlist("checks")]
     ingredients = flask.request.form.getlist("ingredient")
-    quantities = [float(i) for i in flask.request.form.getlist("quantity")]
+    quantities = flask.request.form.getlist("quantity")
     units = flask.request.form.getlist("units")
 
     for i in add_indexes:
@@ -185,7 +194,7 @@ def addingredient():
             new_quantity = add_quantities(
                 ingredient_in_db.quantity,
                 ingredient_in_db.units,
-                quantities[i],
+                float(quantities[i]),
                 units[i],
             )
             ingredient_in_db.quantity = new_quantity["amount"]
@@ -259,6 +268,53 @@ def grocerylist():
         ingredients=ingredients,
         len=len(ingredients["names"]),
     )
+
+
+@app.route("/savelikes", methods=["POST"])
+@login_required
+def savelikes():
+    likes_list = json.loads(flask.request.data)["likes"]  # expects a list of recipe IDs
+    dislikes_list = json.loads(flask.request.data)[
+        "dislikes"
+    ]  # likes & UNlikes go in same list. dislikes go with un-dislikes.
+    for i in dislikes_list:
+        if is_disliked(current_user.email, i):
+            like_entry = get_like(current_user.email, i)
+            db.session.delete(like_entry)
+            db.session.commit()
+        elif is_liked(current_user.email, i):
+            like_entry = get_like(current_user.email, i)
+            like_entry.like_value = -1
+            db.session.commit()
+        else:
+            like_entry = set_dislike(current_user.email, i)
+            db.session.add(like_entry)
+            db.session.commit()
+
+    for i in likes_list:
+        if is_liked(current_user.email, i):
+            like_entry = get_like(current_user.email, i)
+            db.session.delete(like_entry)
+            db.session.commit()
+        elif is_disliked(current_user.email, i):
+            like_entry = get_like(current_user.email, i)
+            like_entry.like_value = 1
+            db.session.commit()
+        else:
+            like_entry = set_like(current_user.email, i)
+            db.session.add(like_entry)
+            db.session.commit()
+
+    new_likes = get_likes_list(current_user.email)
+    new_dislikes = get_dislikes_list(current_user.email)
+
+    jsonreturn = flask.jsonify(
+        {
+            "likes": new_likes,
+            "dislikes": new_dislikes,
+        }
+    )
+    return jsonreturn
 
 
 app.run(

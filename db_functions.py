@@ -109,6 +109,10 @@ def get_dislikes_list(email):
     return dislikes_list
 
 
+def get_like(email, recipe_id):
+    Likes.query.filter_by(email=email, recipe_id=recipe_id).first()
+
+
 def set_like(email, recipe_id):
     return Likes(email=email, recipe_id=recipe_id, like_value=1)
 
