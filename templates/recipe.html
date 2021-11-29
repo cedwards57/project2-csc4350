@@ -8,8 +8,26 @@
         </style>
     </head>
     <body>
-        <h1>{{ data["title"] }}</h1>
-        <p>{{ data["summary"] }}</p>
-        <img src={{ data["imageURL"] }} />
+        <div class="info">
+            <h1>{{ data["title"] }}</h1>
+            <p>{{ data["summary"] }}</p>
+            <img src={{ data["imageURL"] }} />
+        </div>
+        <br/>
+        <br/>
+        <div class="ingredients">
+            <h2>Needed Ingredients:</h2>
+            <form method="post" action="/addingredients">
+                {% for i in range(data["len"])%}
+                    <p>
+                        <input type="hidden" name="ingredient" value="{{data["ingredients"][i]["name"]}}">
+                        <input type="hidden" name="quantity" value="{{data["ingredients"][i]["quantity"]}}">
+                        <input type="hidden" name="units" value="{{data["ingredients"][i]["units"]}}">
+                        <input type="checkbox" name="checks" value="{{i}}">{{data["ingredients"][i]["name"]}}
+                    </p>
+                {%endfor%}
+                <button type="submit">Add All</button>
+            </form>
+        </div>
     </body>
 </html>
