@@ -334,7 +334,7 @@ def likerecipe():
         db.session.add(like_entry)
         db.session.commit()
 
-    return flask.redirect("/recipe")
+    return flask.redirect(f"/recipe?recipeid={recipe_id}")
 
 
 @app.route("/dislikerecipe", methods=["POST"])
@@ -354,7 +354,7 @@ def dislikerecipe():
         db.session.add(like_entry)
         db.session.commit()
 
-    return flask.redirect("/recipe")
+    return flask.redirect(f"/recipe?recipeid={recipe_id}")
 
 
 app.run(
