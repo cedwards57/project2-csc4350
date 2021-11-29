@@ -7,6 +7,9 @@ from requests.models import Response
 
 def add_quantities(amnt1, unt1, amnt2, unt2):
 
+    amnt1 = float(amnt1)
+    amnt2 = float(amnt2)
+
     if len(unt1) > len(unt2):
         if (unt1[-1:] == "s" or unt1[-2:] == "es") and (
             unt1[:-1] == unt2 or unt1[:-2] == unt2
@@ -36,4 +39,4 @@ def add_quantities(amnt1, unt1, amnt2, unt2):
         funit = unt2
         famnt = amnt2 + (amnt1 * mtrc_cnvrt[mtrc_unt.index(unt1)])
 
-    return {"amount": famnt, "units": funit}
+    return {"amount": str(famnt), "units": funit}

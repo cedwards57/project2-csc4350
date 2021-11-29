@@ -199,7 +199,7 @@ def addingredient():
             db.session.add(new_ingredient)
             db.session.commit()
 
-    flask.redirect("/recipelist")
+    return flask.redirect("/recipelist")
 
 
 @app.route("/searchrecipes", methods=["POST"])
@@ -223,13 +223,18 @@ def searchrecipes():
 @login_required
 def recipe():
     recipe_id = flask.request.args["recipeid"]
-    ingredients = recipeIngredients(recipe_id)
-    recipe_info = recipesInfo(recipe_id)
+
+    recipy_info=recipesInfo(recipe_id)
+    recipe_ing = recipeIngredients(recipe_id)
+
     data = {
-        "ingredients": ingredients,
-        "recipe_info": recipe_info,
-        "length": len(ingredients),
+        "title":recipy_info["title"],
+        "summary":recipy_info["summary"],
+        "imageURL":recipy_info["imageURL"],
+        "ingredients":recipe_ing,
+        "len":len(recipe_ing)
     }
+
     return flask.render_template("recipe.html", data=data)
 
 
