@@ -175,7 +175,7 @@ def delingredient():
 def addingredient():
     add_indexes = [int(i) for i in flask.request.form.getlist("checks")]
     ingredients = flask.request.form.getlist("ingredient")
-    quantities = [int(i) for i in flask.request.form.getlist("quantity")]
+    quantities = [float(i) for i in flask.request.form.getlist("quantity")]
     units = flask.request.form.getlist("units")
 
     for i in add_indexes:
