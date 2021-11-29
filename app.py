@@ -317,6 +317,46 @@ def savelikes():
     return jsonreturn
 
 
+@app.route("/likerecipe", methods=["POST"])
+@login_required
+def likerecipe():
+    recipe_id = flask.request.form["recipe_id"]
+    if is_liked(current_user.email, recipe_id):
+        like_entry = get_like(current_user.email, recipe_id)
+        db.session.delete(like_entry)
+        db.session.commit()
+    elif is_disliked(current_user.email, recipe_id):
+        like_entry = get_like(current_user.email, recipe_id)
+        like_entry.like_value = 1
+        db.session.commit()
+    else:
+        like_entry = set_like(current_user.email, recipe_id)
+        db.session.add(like_entry)
+        db.session.commit()
+
+    return flask.redirect("/recipe")
+
+
+@app.route("/dislikerecipe", methods=["POST"])
+@login_required
+def dislikerecipe():
+    recipe_id = flask.request.form["recipe_id"]
+    if is_disliked(current_user.email, recipe_id):
+        like_entry = get_like(current_user.email, recipe_id)
+        db.session.delete(like_entry)
+        db.session.commit()
+    elif is_liked(current_user.email, recipe_id):
+        like_entry = get_like(current_user.email, recipe_id)
+        like_entry.like_value = -1
+        db.session.commit()
+    else:
+        like_entry = set_dislike(current_user.email, recipe_id)
+        db.session.add(like_entry)
+        db.session.commit()
+
+    return flask.redirect("/recipe")
+
+
 app.run(
     host=os.getenv("IP", "0.0.0.0"),
     port=int(os.getenv("PORT", 8081)),
