@@ -37,3 +37,15 @@ class SavedIngredients(db.Model):
 
     def get_ingredient_name(self):
         return self.ingredient_name
+
+
+class Likes(db.Model):
+    email = db.Column(db.String(50), primary_key="True")
+    recipe_id = db.Column(db.String(80), primary_key="True")
+    like_value = db.Column(db.Integer)
+
+    def __repr__(self):
+        return "<Likes %r %r %r>" % (self.email, self.recipe_id, self.like_value)
+
+    def get_ingredient_name(self):
+        return self.like_value
