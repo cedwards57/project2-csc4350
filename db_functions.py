@@ -1,4 +1,4 @@
-from models import UserInfos, SavedRecipe, SavedIngredients, db
+from models import UserInfos, SavedRecipe, SavedIngredients, Likes
 from encryption import encrypt_password, decrypt_password
 
 
