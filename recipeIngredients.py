@@ -43,4 +43,4 @@ def recipeIngredients(rID):
 
 
 # uncomment next two lines to test the function
-# recipeIngredients(1003464)
+recipeIngredients(1003464)

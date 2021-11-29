@@ -32,6 +32,7 @@ from recipeInfo import recipesInfo
 from recipeInstructions import instructions
 from recipesSearch import recipesSearch
 from recipeIngredients import recipeIngredients
+from combineQuantities import add_quantities
 
 load_dotenv(find_dotenv())
 
@@ -168,11 +169,33 @@ def delingredient():
 @app.route("/addingredients", methods=["POST"])
 @login_required
 def addingredient():
-    ingredient_names = flask.request.form["ingredients"]
-    for ingredient in ingredient_names:
-        if get_ingredient(current_user.email, ingredient) is None:
-            db.session.add(set_ingredient(current_user.email, ingredient))
-    db.session.commit()
+    add_indexes = [int(i) for i in flask.request.form.getlist("checks")]
+    ingredients = flask.request.form.getlist("ingredient")
+    quantities = [float(i) for i in flask.request.form.getlist("quantity")]
+    units = flask.request.form.getlist("units")
+
+    for i in add_indexes:
+        ingredient_in_db = get_ingredient(current_user.email, ingredients[i])
+
+        if ingredient_in_db is not None:
+            new_quantity = add_quantities(
+                ingredient_in_db.quantity,
+                ingredient_in_db.units,
+                quantities[i],
+                units[i],
+            )
+            ingredient_in_db.quantity = new_quantity["amount"]
+            ingredient_in_db.units = new_quantity["units"]
+            db.session.commit()
+
+        if ingredient_in_db is None:
+            new_ingredient = set_ingredient(
+                current_user.email, ingredients[i], quantities[i], units[i]
+            )
+            db.session.add(new_ingredient)
+            db.session.commit()
+
+    return flask.redirect("/recipelist")
 
 
 @app.route("/searchrecipes", methods=["POST"])
@@ -194,7 +217,18 @@ def searchrecipes():
 @login_required
 def recipe():
     recipe_id = flask.request.args["recipeid"]
-    data = recipesInfo(recipe_id)
+
+    recipy_info=recipesInfo(recipe_id)
+    recipe_ing = recipeIngredients(recipe_id)
+
+    data = {
+        "title":recipy_info["title"],
+        "summary":recipy_info["summary"],
+        "imageURL":recipy_info["imageURL"],
+        "ingredients":recipe_ing,
+        "len":len(recipe_ing)
+    }
+
     return flask.render_template("recipe.html", data=data)
 
 
