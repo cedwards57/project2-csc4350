@@ -223,7 +223,13 @@ def searchrecipes():
 @login_required
 def recipe():
     recipe_id = flask.request.args["recipeid"]
-    data = recipesInfo(recipe_id)
+    ingredients = recipeIngredients(recipe_id)
+    recipe_info = recipesInfo(recipe_id)
+    data = {
+        "ingredients": ingredients,
+        "recipe_info": recipe_info,
+        "length": len(ingredients),
+    }
     return flask.render_template("recipe.html", data=data)
 
 
