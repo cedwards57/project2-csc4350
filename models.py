@@ -26,7 +26,7 @@ class SavedRecipe(db.Model):
         return self.recipe_id
 
 
-class SavedIngredient(db.Model):
+class SaveIngredient(db.Model):
     email = db.Column(db.String(50), primary_key="True")
     ingredient_name = db.Column(db.String(80), primary_key="True")
     quantity = db.Column(db.String(50))

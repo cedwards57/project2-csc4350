@@ -1,4 +1,4 @@
-from models import UserInfos, SavedRecipe, SavedIngredient
+from models import UserInfos, SavedRecipe, SaveIngredient
 from encryption import encrypt_password, decrypt_password
 
 
@@ -29,7 +29,7 @@ def set_user(email, password):
 
 
 def get_ingredient_quantity(email, ingredient_name):
-    this_ingredient = SavedIngredient.query.filter_by(
+    this_ingredient = SaveIngredient.query.filter_by(
         email=email, ingredient_name=ingredient_name
     ).first()
     if this_ingredient is None:
@@ -38,7 +38,7 @@ def get_ingredient_quantity(email, ingredient_name):
 
 
 def get_ingredient_units(email, ingredient_name):
-    this_ingredient = SavedIngredient.query.filter_by(
+    this_ingredient = SaveIngredient.query.filter_by(
         email=email, ingredient_name=ingredient_name
     ).first()
     if this_ingredient is None:
@@ -47,13 +47,13 @@ def get_ingredient_units(email, ingredient_name):
 
 
 def get_ingredient(email, ingredient_name):
-    return SavedIngredient.query.filter_by(
+    return SaveIngredient.query.filter_by(
         email=email, ingredient_name=ingredient_name
     ).first()
 
 
 def set_ingredient(email, ingredient_name, quantity, units):
-    return SavedIngredient(
+    return SaveIngredient(
         email=email, ingredient_name=ingredient_name, quantity=quantity, units=units
     )
 
@@ -73,13 +73,13 @@ def get_recipe(email, recipe_id):
 
 
 def get_ingredient_names(email):
-    ingredients = SavedIngredient.query.filter_by(email=email)
+    ingredients = SaveIngredient.query.filter_by(email=email)
     ingredient_list = [i.ingredient_name for i in ingredients]
     return ingredient_list
 
 
 def user_has_ingredients(email):
-    ingredients = SavedIngredient.query.filter_by(email=email).first()
+    ingredients = SaveIngredient.query.filter_by(email=email).first()
     return ingredients is not None
 
 
@@ -89,7 +89,7 @@ def user_has_recipes(email):
 
 
 def get_ingredients(email):
-    ingredients = SavedIngredient.query.filter_by(email=email)
+    ingredients = SaveIngredient.query.filter_by(email=email)
     ingredient_list = [
         {"name": i.ingredient_name, "quantity": i.quantity, "units": i.units}
         for i in ingredients
