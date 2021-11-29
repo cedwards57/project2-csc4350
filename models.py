@@ -26,10 +26,10 @@ class SavedRecipe(db.Model):
         return self.recipe_id
 
 
-class SavedIngredients(db.Model):
+class SavedIngredient(db.Model):
     email = db.Column(db.String(50), primary_key="True")
     ingredient_name = db.Column(db.String(80), primary_key="True")
-    quantity = db.Column(db.Integer)
+    quantity = db.Column(db.String(50))
     units = db.Column(db.String(16))
 
     def __repr__(self):
