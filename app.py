@@ -186,6 +186,7 @@ def addingredient():
     ingredients = flask.request.form.getlist("ingredient")
     quantities = flask.request.form.getlist("quantity")
     units = flask.request.form.getlist("units")
+    recipe_id = flask.request.form["recipe_id"]
 
     for i in add_indexes:
         ingredient_in_db = get_ingredient(current_user.email, ingredients[i])
@@ -208,7 +209,8 @@ def addingredient():
             db.session.add(new_ingredient)
             db.session.commit()
 
-    return flask.redirect("/recipelist")
+    flask.flash("Ingredients added to your grocery list!")
+    return flask.redirect(f"/recipe?recipeid={recipe_id}")
 
 
 @app.route("/searchrecipes", methods=["POST"])
@@ -242,6 +244,7 @@ def recipe():
         "imageURL": recipy_info["imageURL"],
         "ingredients": recipe_ing,
         "len": len(recipe_ing),
+        "recipe_id": recipe_id,
     }
 
     return flask.render_template("recipe.html", data=data)
