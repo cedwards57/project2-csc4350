@@ -7,6 +7,18 @@
         body {
             background-color: #66C6DA;
         }
+        .Directory {
+          top: 0;
+          width: 100%;
+          position: fixed;        
+          background: #333;
+          padding: 10px 0;
+          color: #fff;
+        }
+        body{        
+          padding-top: 60px;
+          padding-bottom: 40px;
+        }
     </style>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -15,24 +27,27 @@
 </head>
 
 <body>
-    <h2>Grocery List</h2>
-    <br/>
-    <div>
+  <br/>
+  <div class="Directory">
+    <nav>
       <a href="/recipelist"><button>My Recipes</button></a>
       <a href="/logout"><button>Log Out</button></a>
-    </div>
-    <br/>
+    </nav>
+  </div>
+  <br/>
+  <h2>Grocery List</h2>
     <br/>
       <div class="theTable">
         <table class="table table-striped table-dark">
           <tr>
-            <th scope="col">#</th>
+            <th scope="col">Action</th>
             <th scope="col">Ingredient</th>
             <th scope="col">Amount</th>
           </tr>
           {% for i in range(len) %}
             <tr>
-              <td><input type="submit" value="Delete"/><form action="/delingredient" method="post">{{ ingredients["names"][i] }} <input type="hidden" name="ingredient_name" value={{ ingredients["names"][i] }} /></form></td>
+              <td><input type="submit" value="Delete"/></td>
+              <td><form action="/delingredient" method="post">{{ ingredients["names"][i] }} <input type="hidden" name="ingredient_name" value={{ ingredients["names"][i] }} /></form></td>
               <td>{{ ingredients["quantities"][i] }} {{ ingredients["units"][i] }}</td>
             </tr>
           {% endfor %}
