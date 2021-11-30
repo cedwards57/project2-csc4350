@@ -1,4 +1,4 @@
-from models import UserInfos, SavedRecipe, SaveIngredient
+from models import UserInfos, SavedRecipe, SaveIngredient, Likes
 from encryption import encrypt_password, decrypt_password
 
 
@@ -95,3 +95,48 @@ def get_ingredients(email):
         for i in ingredients
     ]
     return ingredient_list
+
+
+def get_likes_list(email):
+    likes = Likes.query.filter_by(email=email, like_value=1)
+    likes_list = [i.recipe_id for i in likes]
+    return likes_list
+
+
+def get_dislikes_list(email):
+    dislikes = Likes.query.filter_by(email=email, like_value=-1)
+    dislikes_list = [i.recipe_id for i in dislikes]
+    return dislikes_list
+
+
+def get_like(email, recipe_id):
+    Likes.query.filter_by(email=email, recipe_id=recipe_id).first()
+
+
+def set_like(email, recipe_id):
+    return Likes(email=email, recipe_id=recipe_id, like_value=1)
+
+
+def set_dislike(email, recipe_id):
+    return Likes(email=email, recipe_id=recipe_id, like_value=-1)
+
+
+def get_like_value(email, recipe_id):
+    like_entry = Likes.query.filter_by(email=email, recipe_id=recipe_id).first()
+    if like_entry == None:
+        return 0
+    return like_entry.like_value
+
+
+def is_liked(email, recipe_id):
+    like_entry = Likes.query.filter_by(email=email, recipe_id=recipe_id).first()
+    if like_entry == None:
+        return False
+    return like_entry.like_value == 1
+
+
+def is_disliked(email, recipe_id):
+    like_entry = Likes.query.filter_by(email=email, recipe_id=recipe_id).first()
+    if like_entry == None:
+        return False
+    return like_entry.like_value == -1
