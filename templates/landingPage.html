@@ -2,14 +2,180 @@
 <html>
     <head>
         <style>
+            /* .Directory {
+                top: 0;
+                width: 100%;
+                position: fixed;        
+                background: #333;
+                padding: 10px 0;
+                color: #fff;
+            }
+            body{        
+                padding-top: 60px;
+                padding-bottom: 40px;
+            }
+            nav a{
+                color: #fff;
+                text-decoration: none;
+                padding: 7px 25px;
+                display: inline-block;
+            } */
+            .btn-primary1 {
+                color: #fff;
+                background-color: darkolivegreen;
+                border-color: darkolivegreen;
+            }
+            header.masthead {
+                padding-top: 10.5rem;
+                padding-bottom: 6rem;
+                text-align: center;
+                color: #fff;
+                background-image: url("../static/img/header-bg.jpg");
+                background-repeat: no-repeat;
+                background-attachment: scroll;
+                background-position: center center;
+                background-size: cover;
+            }
+            header.masthead .masthead-subheading {
+                font-size: 1.5rem;
+                font-style: italic;
+                line-height: 1.5rem;
+                margin-bottom: 25px;
+                font-family: "Roboto Slab", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+            }
+            header.masthead .masthead-heading {
+                font-size: 3.25rem;
+                font-weight: 700;
+                line-height: 3.25rem;
+                margin-bottom: 2rem;
+                font-family: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+            }
+            .feature {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                height: 4rem;
+                width: 4rem;
+                font-size: 2rem;
+            }
+            .service-icon {
+                background-color: #fff;
+                color: #1D809F;
+                height: 7rem;
+                width: 7rem;
+                display: block;
+                line-height: 8.5rem;
+                font-size: 2.25rem;
+                box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.1);
+            }
+            .rounded-circle {
+                border-radius: 50% !important;
+            }
+            .mx-auto {
+                margin-right: auto !important;
+                margin-left: auto !important;
+            }
+            .mb-3 {
+                margin-bottom: 1rem !important;
+            }
 
+            @media (min-width: 768px) {
+                header.masthead {
+                    padding-top: 17rem;
+                    padding-bottom: 12.5rem;
+                }
+                header.masthead .masthead-subheading {
+                    font-size: 2.25rem;
+                    font-style: italic;
+                    line-height: 2.25rem;
+                    margin-bottom: 2rem;
+                }
+                header.masthead .masthead-heading {
+                    font-size: 4.5rem;
+                    font-weight: 700;
+                    line-height: 4.5rem;
+                    margin-bottom: 4rem;
+                }
+            }
         </style>
             <meta charset="UTF-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>Landing Page</title>
+            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+            <script src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" crossorigin="anonymous"></script>
     </head>
-    <body>
-
+    <body id="page-top">
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav" style="background-color: darkolivegreen;">
+            <div class="container px-4">
+                <a class="navbar-brand" href="#page-top">HungryLists</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/signup">Signup</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- Header-->
+        <header class="masthead" style="background-image: url('https://images.pexels.com/photos/1028599/pexels-photo-1028599.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')">
+            <div class="container">
+                <div class="masthead-heading text-uppercase" style="color: darkseagreen;text-shadow: -7px 4px 6px darkslategray;">Welcome to Hungary Lists</div>
+                <a class="btn btn-primary1 btn-xl text-uppercase" href="#about">Tell Me More</a>
+            </div>
+        </header>
+        <section class="py-5 border-bottom" id="about">
+            <div class="container px-5 my-5">
+                <div class="row gx-5">
+                    <div class="col-lg-4 mb-5 mb-lg-0">
+                        <div class="feature bg-gradient text-white rounded-3 mb-3" style="background-color: darkolivegreen;"><i class="fas fa-hamburger ms-1"></i></div>
+                        <h2 class="h4 fw-bolder">Functionalities</h2>
+                        <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>
+                    </div>
+                    <div class="col-lg-4 mb-5 mb-lg-0">
+                        <div class="feature bg-gradient text-white rounded-3 mb-3" style="background-color: darkolivegreen;"><i class="fas fa-seedling ms-1"></i></div>
+                        <h2 class="h4 fw-bolder">Why Does It Matter</h2>
+                        <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="feature bg-gradient text-white rounded-3 mb-3" style="background-color: darkolivegreen;"><i class="fas fa-carrot ms-1"></i></div>
+                        <h2 class="h4 fw-bolder">Who Can Use It</h2>
+                        <p>Everyone</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="content-section text-center" id="whoWeAre" style="background-color: darkolivegreen;padding-top: 5%;padding-bottom: 5%;">
+            <div class="container px-4 px-lg-5">
+                <div class="content-section-heading">
+                    <h3 style="color: white;">Creators</h3>
+                    <h2 class="mb-5">Meet The Team</h2>
+                </div>
+                <div class="row gx-4 gx-lg-5">
+                    <div class="col-lg-3 col-md-6 mb-5 mb-lg-0">
+                        <span class="service-icon rounded-circle mx-auto mb-3"><i class="fas fa-user-circle fa-2x" style="color: slategray;"></i></span>
+                        <h4><strong>Capella Edwards</strong></h4>
+                        <p class="text-faded mb-0"></p>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-5 mb-lg-0">
+                        <span class="service-icon rounded-circle mx-auto mb-3"><i class="fas fa-user-circle fa-2x" style="color: slategray;"></i></i></span>
+                        <h4><strong>Lanlan Wu</strong></h4>
+                        <p class="text-faded mb-0"></p>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-5 mb-md-0">
+                        <span class="service-icon rounded-circle mx-auto mb-3"><i class="fas fa-user-circle fa-2x" style="color: slategray;"></i></span>
+                        <h4><strong>Ajia Kim</strong></h4>
+                        <p class="text-faded mb-0"></p>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <span class="service-icon rounded-circle mx-auto mb-3"><i class="fas fa-user-circle fa-2x" style="color: slategray;"></i></span>
+                        <h4><strong>Yashesh Patel</strong></h4>
+                        <p class="text-faded mb-0"></p>
+                    </div>
+                </div>
+            </div>
+        </section>
     </body>
 </html>

@@ -79,6 +79,10 @@ def unauthorized_callback():
 
 @app.route("/")
 def main():
+    return flask.render_template("landingPage.html")
+
+@app.route("/redirect")
+def redirect():
     if current_user.is_authenticated:
         return flask.redirect("/grocerylist")
     else:
@@ -98,7 +102,7 @@ def loginpost():
         flask.flash("Incorrect username or password.")
         return flask.redirect("/login")
     login_user(get_user(entered_email))
-    return flask.redirect("/")
+    return flask.redirect("/redirect")
 
 
 @app.route("/signup")
