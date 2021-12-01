@@ -114,10 +114,10 @@
                         <th scope="col">Amount</th>
                       </tr>
                       {% for i in range(len) %}
-                        <tr>
+                        <tr><form method="post" action="/delingredient">
                           <td><input type="submit" value="Delete"/></td>
-                          <td><form action="/delingredient" method="post">{{ ingredients["names"][i] }} <input type="hidden" name="ingredient_name" value={{ ingredients["names"][i] }} /></form></td>
-                          <td>{{ ingredients["quantities"][i] }} {{ ingredients["units"][i] }}</td>
+                          <td>{{ ingredients["names"][i] }} <input type="hidden" name="ingredient_name" value="{{ ingredients["names"][i] }}" /></td>
+                          <td>{{ ingredients["quantities"][i] }} {{ ingredients["units"][i] }}</td></form>
                         </tr>
                       {% endfor %}
                     </table>
