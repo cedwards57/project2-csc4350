@@ -74,7 +74,6 @@ function App() {
     </ul>
     
     <h1>{args.name}</h1>
-    <h2>This page is a work in progress. The search function may take some time to complete.</h2>
     <input type="text" id="searchQuery" placeholder="Search by ingredient..." /><button onClick={searchRecipe}>Search</button>
     {searchRecipes.map((item, k) => <p><ResultRecipe id={item.id} title={item.title}/><button onClick={() => addRecipe(item)}>Add Recipe</button></p>)}
     <h3>Your Recipes</h3>

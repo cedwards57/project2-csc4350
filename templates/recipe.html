@@ -23,6 +23,7 @@
         <div class="ingredients">
             <h2>Needed Ingredients:</h2>
             <form method="post" action="/addingredients">
+                <input type="hidden" name="recipe_id" value="{{data['recipe_id']}}" />
                 {% for i in range(data["len"])%}
                     <p>
                         <input type="hidden" name="ingredient" value="{{data["ingredients"][i]["name"]}}">

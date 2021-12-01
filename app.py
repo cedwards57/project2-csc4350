@@ -90,6 +90,7 @@ def unauthorized_callback():
 def main():
     return flask.render_template("landingPage.html")
 
+
 @app.route("/redirect")
 def redirect():
     if current_user.is_authenticated:
@@ -100,6 +101,8 @@ def redirect():
 
 @app.route("/login")
 def login():
+    if current_user.is_authenticated:
+        return flask.redirect("/grocerylist")
     return flask.render_template("login.html")
 
 
@@ -116,6 +119,8 @@ def loginpost():
 
 @app.route("/signup")
 def signup():
+    if current_user.is_authenticated:
+        return flask.redirect("/grocerylist")
     return flask.render_template("signup.html")
 
 
@@ -190,6 +195,7 @@ def addingredient():
     ingredients = flask.request.form.getlist("ingredient")
     quantities = flask.request.form.getlist("quantity")
     units = flask.request.form.getlist("units")
+    recipe_id = flask.request.form["recipe_id"]
 
     for i in add_indexes:
         ingredient_in_db = get_ingredient(current_user.email, ingredients[i])
@@ -212,7 +218,7 @@ def addingredient():
             db.session.add(new_ingredient)
             db.session.commit()
 
-    return flask.redirect("/recipelist")
+    return flask.redirect(f"/recipe?recipeid={recipe_id}")
 
 
 @app.route("/searchrecipes", methods=["POST"])
@@ -246,6 +252,7 @@ def recipe():
         "imageURL": recipy_info["imageURL"],
         "ingredients": recipe_ing,
         "len": len(recipe_ing),
+        "recipe_id": recipe_id,
     }
 
     return flask.render_template("recipe.html", data=data)
