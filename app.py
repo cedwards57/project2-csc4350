@@ -179,8 +179,10 @@ def saverecipes():
 @login_required
 def delingredient():
     ingredient_name = flask.request.form["ingredient_name"]
-    if get_ingredient(current_user.email, ingredient_name) is not None:
-        db.session.delete(get_ingredient(current_user.email, ingredient_name))
+    this_ingredient = get_ingredient(current_user.email, ingredient_name)
+
+    if this_ingredient is not None:
+        db.session.delete(this_ingredient)
         db.session.commit()
         flask.flash("Ingredient removed.")
     else:
