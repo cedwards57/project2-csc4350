@@ -8,9 +8,6 @@ function App() {
   const args = JSON.parse(document.getElementById("data").text);
   const [recipeList, updateRecipeList] = useState(args.recipes);
   const [searchRecipes, updateSearchRecipes] = useState([]);
-  const [delRecipes, updateDelRecipes] = useState([]);
-  const [addRecipes, updateAddRecipes] = useState([]);
-  const inputRef = useRef(null);
   
   function searchRecipe() {
     let query = document.getElementById("searchQuery").value
@@ -36,33 +33,25 @@ function App() {
       headers:{
           "content_type":"application/json",
       },
-      body:JSON.stringify({"delRecipes": delRecipes, "addRecipes": addRecipes})
+      body:JSON.stringify({"recipeList": recipeList})
     }
     ).then(response => {
       return response.json();
     }).then(data => {
       updateRecipeList(data.newRecipeList);
-      updateAddRecipes([]);
-      updateDelRecipes([]);
     })
   }
 
   function addRecipe(add_recipe) {
-    let newAddRecipes = [...addRecipes, add_recipe["id"]];
-    updateAddRecipes(newAddRecipes);
     let newRecipeList = [...recipeList, add_recipe];
     updateRecipeList(newRecipeList);
   }
 
   function delRecipe(del_recipe) {
-    let newDelRecipes = [...delRecipes, del_recipe["id"]];
-    updateAddRecipes(newDelRecipes);
     let remove_index = recipeList.indexOf(del_recipe);
     let newRecipeList = [...recipeList];
     newRecipeList.splice(remove_index,1);
     updateRecipeList(newRecipeList);
-    console.log(newRecipeList);
-    console.log(delRecipes);
   }
 
   return (
