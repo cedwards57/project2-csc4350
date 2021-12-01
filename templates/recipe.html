@@ -8,6 +8,11 @@
         </style>
     </head>
     <body>
+        <div class="Directory">
+            <a href="/grocerylist"><button>My Grocery List</button></a>
+            <a href="/recipelist"><button>My Recipes</button></a>
+            <a href="/logout"><button>Log Out</button></a>
+        </div>
         <div class="info">
             <h1>{{ data["title"] }}</h1>
             <p>{{ data["summary"] }}</p>
@@ -18,6 +23,7 @@
         <div class="ingredients">
             <h2>Needed Ingredients:</h2>
             <form method="post" action="/addingredients">
+                <input type="hidden" name="recipe_id" value="{{data['recipe_id']}}" />
                 {% for i in range(data["len"])%}
                     <p>
                         <input type="hidden" name="ingredient" value="{{data["ingredients"][i]["name"]}}">

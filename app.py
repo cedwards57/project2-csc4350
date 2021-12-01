@@ -19,6 +19,7 @@ from db_functions import (
     get_ingredient_quantity,
     get_ingredient_units,
     get_recipe,
+    get_recipes,
     get_recipe_ids,
     get_ingredient_names,
     user_info_correct,
@@ -27,7 +28,7 @@ from db_functions import (
     set_ingredient,
     set_recipe,
     user_has_ingredients,
-    user_has_recipes,
+    user_has_recipe,
     set_like,
     get_like,
     set_dislike,
@@ -88,6 +89,11 @@ def unauthorized_callback():
 
 @app.route("/")
 def main():
+    return flask.render_template("landingPage.html")
+
+
+@app.route("/redirect")
+def redirect():
     if current_user.is_authenticated:
         return flask.redirect("/grocerylist")
     else:
@@ -96,6 +102,8 @@ def main():
 
 @app.route("/login")
 def login():
+    if current_user.is_authenticated:
+        return flask.redirect("/grocerylist")
     return flask.render_template("login.html")
 
 
@@ -107,11 +115,13 @@ def loginpost():
         flask.flash("Incorrect username or password.")
         return flask.redirect("/login")
     login_user(get_user(entered_email))
-    return flask.redirect("/")
+    return flask.redirect("/redirect")
 
 
 @app.route("/signup")
 def signup():
+    if current_user.is_authenticated:
+        return flask.redirect("/grocerylist")
     return flask.render_template("signup.html")
 
 
@@ -138,15 +148,19 @@ def logout():
 @app.route("/saverecipes", methods=["POST"])
 @login_required
 def saverecipes():
-    error_messages = []
-    del_recipes = json.loads(flask.request.data)["delRecipes"]
-    add_recipes = json.loads(flask.request.data)["addRecipes"]
+    recipe_list = set(
+        [str(i["id"]) for i in json.loads(flask.request.data)["recipeList"]]
+    )
+    user_recipes = get_recipes(current_user.email)
 
-    for recipe in add_recipes:
-        db.session.add(set_recipe(current_user.email, recipe))
-    for recipe in del_recipes:
-        db.session.delete(get_recipe(current_user.email, recipe))
-    db.session.commit()
+    for recipe in recipe_list:
+        if not user_has_recipe(current_user.email, recipe):
+            db.session.add(set_recipe(current_user.email, recipe))
+            db.session.commit()
+    for recipe in user_recipes:
+        if recipe.recipe_id not in recipe_list:
+            db.session.delete(recipe)
+            db.session.commit()
     current_ids = get_recipe_ids(current_user.email)
     current_recipes = []
     for id in current_ids:
@@ -157,12 +171,7 @@ def saverecipes():
         }
         current_recipes.append(append_recipe)
 
-    jsonreturn = flask.jsonify(
-        {
-            "newRecipeList": current_recipes,
-            "errorMessages": error_messages,
-        }
-    )
+    jsonreturn = flask.jsonify({"newRecipeList": current_recipes})
     return jsonreturn
 
 
@@ -170,8 +179,10 @@ def saverecipes():
 @login_required
 def delingredient():
     ingredient_name = flask.request.form["ingredient_name"]
-    if get_ingredient(current_user.email, ingredient_name) is not None:
-        db.session.delete(get_ingredient(current_user.email, ingredient_name))
+    this_ingredient = get_ingredient(current_user.email, ingredient_name)
+
+    if this_ingredient is not None:
+        db.session.delete(this_ingredient)
         db.session.commit()
         flask.flash("Ingredient removed.")
     else:
@@ -186,6 +197,7 @@ def addingredient():
     ingredients = flask.request.form.getlist("ingredient")
     quantities = flask.request.form.getlist("quantity")
     units = flask.request.form.getlist("units")
+    recipe_id = flask.request.form["recipe_id"]
 
     for i in add_indexes:
         ingredient_in_db = get_ingredient(current_user.email, ingredients[i])
@@ -208,7 +220,7 @@ def addingredient():
             db.session.add(new_ingredient)
             db.session.commit()
 
-    return flask.redirect("/recipelist")
+    return flask.redirect(f"/recipe?recipeid={recipe_id}")
 
 
 @app.route("/searchrecipes", methods=["POST"])
@@ -242,6 +254,7 @@ def recipe():
         "imageURL": recipy_info["imageURL"],
         "ingredients": recipe_ing,
         "len": len(recipe_ing),
+        "recipe_id": recipe_id,
     }
 
     return flask.render_template("recipe.html", data=data)

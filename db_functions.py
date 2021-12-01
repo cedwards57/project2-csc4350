@@ -88,6 +88,15 @@ def user_has_recipes(email):
     return recipes is not None
 
 
+def user_has_recipe(email, recipe_id):
+    recipe = SavedRecipe.query.filter_by(email=email, recipe_id=recipe_id).first()
+    return recipe is not None
+
+
+def get_recipes(email):
+    return SavedRecipe.query.filter_by(email=email)
+
+
 def get_ingredients(email):
     ingredients = SaveIngredient.query.filter_by(email=email)
     ingredient_list = [
