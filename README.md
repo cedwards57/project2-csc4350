@@ -9,7 +9,9 @@
 Welcome! Hungrylists can be accessed from [this website](http://hungrylists.herokuapp.com/).
 
 ## Startup
-The base page `/` will redirect the user to `/login` if they are not signed in, or `/grocerylist` if they are.
+The base page `/` will show a landing page, with links to `Login` and `Sign up`.
+
+Clicking links to either `login` or `signup` while already logged in will redirect the user to their `/grocerylist` page. Otherwise, they'll go to the link clicked.
 
 From the `/login` page, the user can enter existing credentials to log in, or click the link to go to the `/signup` page.
 * Entering a username that does not exist, or an existing username with an incorrect password, will display the error "Incorrect username or password."
