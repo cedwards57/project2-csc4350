@@ -16,12 +16,8 @@ from db_functions import (
     get_user,
     set_user,
     get_ingredient,
-    get_ingredient_quantity,
-    get_ingredient_units,
-    get_recipe,
     get_recipes,
     get_recipe_ids,
-    get_ingredient_names,
     user_info_correct,
     find_load_user,
     get_ingredients,
@@ -34,7 +30,6 @@ from db_functions import (
     set_dislike,
     get_likes_list,
     get_dislikes_list,
-    get_like_value,
     is_liked,
     is_disliked,
 )
@@ -115,7 +110,7 @@ def loginpost():
     entered_email = flask.request.form["email"]
     entered_password = flask.request.form["password"]
     if not user_info_correct(entered_email, entered_password):
-        flask.flash("Incorrect username or password.")
+        flask.flash("Incorrect email or password.")
         return flask.redirect("/login")
     login_user(get_user(entered_email))
     return flask.redirect("/redirect")
@@ -134,7 +129,7 @@ def signuppost():
     entered_email = flask.request.form["email"]
     entered_password = flask.request.form["password"]
     if user_exists(entered_email):
-        flask.flash("That username is taken. Sorry!")
+        flask.flash("That email already has an account! Did you mean to log in?")
         return flask.redirect("/signup")
     db.session.add(set_user(entered_email, entered_password))
     db.session.commit()
