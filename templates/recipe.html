@@ -1,39 +1,235 @@
+
 <!DOCTYPE HTML>
-<html>
+<html> 
     <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipes Page</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
         <style>
-            body {
-                color:black;
+            @import url('https://fonts.googleapis.com/css?family=Montserrat:600&display=swap');
+            ul {
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+                background-color: darkolivegreen;
             }
+
+            li {
+            float: left;
+            }
+
+            li a {
+                display: block;
+                color: white;
+                text-align: center;
+                padding: 14px 16px;
+                text-decoration: none;
+            }
+            li a:hover {
+                background-color: darkolivegreen;
+                }
+            h1 {
+                text-align: center;
+                 width:100%; 
+                display:block;
+                 line-height:1.5em; 
+                 overflow:visible; 
+                 font-size:22px; 
+                 text-shadow:#f3f3f3 1px 1px 0px, #b2b2b2 1px 2px 0
+                }
+
+            h2{
+                font-size:14px;
+                font:italic 1em Georgia, serif;
+                text-indent:2em;
+                padding:0 200px 0 200px;
+            }
+            .btn {
+                background-color: whitesmoke;
+                font:italic 1em Georgia, serif;
+                font-size:14px;
+                border: none;
+                color: darkolivegreen;
+                padding: 15px 32px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 12px;
+            }
+            .ingredients{
+                background-color: darkolivegreen;
+                text-align: left;
+                display: block;
+                color: white;
+                padding: 0 400px 0 400px ;
+                text-decoration: none;
+            }
+            .ingredients .button{
+                background-color: #008CBA;
+                border: none;
+                color: white;
+                padding: 15px 32px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+            }
+            .heart-btn2{
+                position: absolute;
+                top: 30%;
+                left: 5%;
+                transform: translate(-50%,-50%);
+            }
+            .content{
+                position: absolute;
+                top: 80px;
+                left: 20px;
+                padding: 15px 30px;
+                display: flex;
+                border: 2px solid #eae2e1;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+            .sidebar {
+                position: absolute;
+                top: 80px;
+                left: 20px;
+            }
+            .content2{
+                padding: 13px 16px;
+                display: flex;
+                border: 2px solid #eae2e1;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+            .content.heart-active{
+                border-color: #f9b9c4;
+                background: darkolivegreen;
+            }
+            .content2.heart-active{
+                border-color: #f9b9c4;
+                background: darkolivegreen;
+            }
+
+            .sidebar input{
+                font-size: 21px;
+                font-family: 'Montserrat',sans-serif;
+            }
+            /* IGNORE THESE ERRORS. It's just Jinja, the code runs fine. */
+            {% if data["is_liked"] %}
+            .like {
+                background-color: darkolivegreen;
+                color: white;
+            }
+            {% endif %}
+            {% if data["is_disliked"] %}
+            .dislike {
+                background-color: maroon;
+                color: white;
+            }
+            {% endif %}
+            .text2{
+                font-size: 21px;
+                margin-left: 30px;
+                color: darkolivegreen;
+                font-family: 'Montserrat',sans-serif;
+            }
+            .numb:before{
+                font-size: 21px;
+                margin-left: 7px;
+                font-weight: 600;
+                color: #9C9496;
+                font-family: sans-serif;
+            }
+            .numb2:before{
+                font-size: 21px;
+                margin-left: 7px;
+                font-weight: 600;
+                color: #9C9496;
+                font-family: sans-serif;
+            }
+            .text.heart-active{
+                color: white;
+            }
+            .text2.heart-active{
+                color: white;
+            }
+            .heart.heart-active{
+                animation: animate .8s steps(28) 1;
+                background-position: right;
+            }
+            .heart2.heart-active{
+                animation: animate .8s steps(28) 1;
+                background-position: right;
+            }
+            @keyframes animate {
+            0%{
+                background-position: left;
+            }
+            100%{
+                background-position: right;
+            }
+}
         </style>
     </head>
     <body>
         <div class="Directory">
-            <a href="/grocerylist"><button>My Grocery List</button></a>
-            <a href="/recipelist"><button>My Recipes</button></a>
-            <a href="/logout"><button>Log Out</button></a>
+            <ul>
+            <li><a href="/grocerylist">My Grocery List</a></li>
+            <li><a href="/recipelist">My Recipes</a></li>
+            <li><a href="/logout">Log Out</a></li>
+            </ul>
         </div>
         <div class="info">
             <h1>{{ data["title"] }}</h1>
-            <p>{{ data["summary"] }}</p>
-            <img src={{ data["imageURL"] }} />
+            <h2>{{ data["summary"] |safe}}</h2>
+            <div style="text-align: center;">
+                <img src={{ data["imageURL"] }} />
+            </div>
         </div>
         <br/>
         <br/>
-        <div class="ingredients">
-            <h2>Needed Ingredients:</h2>
-            <form method="post" action="/addingredients">
-                <input type="hidden" name="recipe_id" value="{{data['recipe_id']}}" />
-                {% for i in range(data["len"])%}
-                    <p>
-                        <input type="hidden" name="ingredient" value="{{data["ingredients"][i]["name"]}}">
-                        <input type="hidden" name="quantity" value="{{data["ingredients"][i]["quantity"]}}">
-                        <input type="hidden" name="units" value="{{data["ingredients"][i]["units"]}}">
-                        <input type="checkbox" name="checks" value="{{i}}">{{data["ingredients"][i]["name"]}}
-                    </p>
-                {%endfor%}
-                <button type="submit">Add All</button>
-            </form>
-        </div>
+            <div class="ingredients">
+                <h2>Needed Ingredients:</h2>
+                <form method="post" action="/addingredients">
+                    <input type="hidden" name="recipe_id" value="{{ data['recipe_id'] }}"/>
+                    {% for i in range(data["len"])%}
+                        <h3>
+                            <input type="hidden" name="ingredient" value="{{data["ingredients"][i]["name"]}}">
+                            <input type="hidden" name="quantity" value="{{data["ingredients"][i]["quantity"]}}">
+                            <input type="hidden" name="units" value="{{data["ingredients"][i]["units"]}}">
+                            <input type="checkbox" name="checks" value="{{i}}">{{data["ingredients"][i]["name"]}}
+                        </h3>
+                    {%endfor%}
+                    <button class ="btn" type="submit">Add All</button>
+                </form>
+            </div>
+            <div class="sidebar">
+                <span class="text"><form action="/likerecipe" method="post"><input type="hidden" name="recipe_id" value="{{ data['recipe_id'] }}"/><input type="submit" class="like" value="LIKE" /></form></span>
+                <span class="text2"><form action="/dislikerecipe" method="post"><input type="hidden" name="recipe_id" value="{{ data['recipe_id'] }}"/><input type="submit" class="dislike" value="DISLIKE" /></form></span>
+            </div>
+            </div>
+              <script>
+                $(document).ready(function(){
+                  $('.content').click(function(){
+                    $('.content').toggleClass("heart-active")
+                    $('.text').toggleClass("heart-active")
+                    $('.numb').toggleClass("heart-active")
+                    $('.heart').toggleClass("heart-active")
+                  });
+                });
+                $(document).ready(function(){
+                  $('.content2').click(function(){
+                    $('.content2').toggleClass("heart-active")
+                    $('.text2').toggleClass("heart-active")
+                    $('.numb2').toggleClass("heart-active")
+                    $('.heart2').toggleClass("heart-active")
+                  });
+                });
+              </script>
     </body>
 </html>
