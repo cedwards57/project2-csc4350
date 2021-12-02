@@ -119,18 +119,18 @@
                 font-size: 21px;
                 font-family: 'Montserrat',sans-serif;
             }
+            {% if data["is_liked"] %}
             .like {
-                {% if data["is_liked"] %}
                 background-color: darkolivegreen;
                 color: white;
-                {% endif %}
             }
+            {% endif %}
+            {% if data["is_disliked"] %}
             .dislike {
-                {% if data["is_disliked"] %}
                 background-color: maroon;
                 color: white;
-                {% endif %}
             }
+            {% endif %}
             .text2{
                 font-size: 21px;
                 margin-left: 30px;
