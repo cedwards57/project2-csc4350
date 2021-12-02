@@ -78,12 +78,6 @@
                 display: inline-block;
                 font-size: 16px;
             }
-            .heart-btn{
-                position: absolute;
-                top: 20%;
-                left: 5%;
-                transform: translate(-50%,-50%);
-            }
             .heart-btn2{
                 position: absolute;
                 top: 30%;
@@ -91,11 +85,19 @@
                 transform: translate(-50%,-50%);
             }
             .content{
+                position: absolute;
+                top: 80px;
+                left: 20px;
                 padding: 15px 30px;
                 display: flex;
                 border: 2px solid #eae2e1;
                 border-radius: 5px;
                 cursor: pointer;
+            }
+            .sidebar {
+                position: absolute;
+                top: 80px;
+                left: 20px;
             }
             .content2{
                 padding: 13px 16px;
@@ -113,11 +115,21 @@
                 background: darkolivegreen;
             }
 
-            .text{
+            .sidebar input{
                 font-size: 21px;
-                margin-left: 30px;
-                color: darkolivegreen;
                 font-family: 'Montserrat',sans-serif;
+            }
+            .like {
+                {% if data["is_liked"] %}
+                background-color: darkolivegreen;
+                color: white;
+                {% endif %}
+            }
+            .dislike {
+                {% if data["is_disliked"] %}
+                background-color: maroon;
+                color: white;
+                {% endif %}
             }
             .text2{
                 font-size: 21px;
@@ -173,7 +185,7 @@
         </div>
         <div class="info">
             <h1>{{ data["title"] }}</h1>
-            <h2>{{ data["summary"] }}</h2>
+            <h2>{{ data["summary"] |safe}}</h2>
             <div style="text-align: center;">
                 <img src={{ data["imageURL"] }} />
             </div>
@@ -195,27 +207,9 @@
                     <button class ="btn" type="submit">Add All</button>
                 </form>
             </div>
-            <div class="heart-btn">
-                <div class="content">
-                  <span class="heart"></span>
-                  <span class="text"><form action="/likerecipe" method="post"><input type="hidden" name="recipe_id" value="{{ data['recipe_id'] }}"/><input type="submit" value="LIKE" /></form></span>
-                  <span class="numb"></span>
-                  <p>
-                    {% if data["is_liked"] %}
-                        You like this recipe!
-                    {% endif %}
-                    {% if data["is_disliked"] %}
-                        You dislike this recipe.
-                    {% endif %}
-                  </p>
-                </div>
-            </div>
-            <div class="heart-btn2">
-              <div class="content2">
-                <span class="heart2"></span>
-                <span class="text2"><form action="/dislikerecipe" method="post"><input type="hidden" name="recipe_id" value="{{ data['recipe_id'] }}"/><input type="submit" value="DISLIKE" /></form></span>
-                <span class="numb2"></span>
-              </div>
+            <div class="sidebar">
+                <span class="text"><form action="/likerecipe" method="post"><input type="hidden" name="recipe_id" value="{{ data['recipe_id'] }}"/><input type="submit" class="like" value="LIKE" /></form></span>
+                <span class="text2"><form action="/dislikerecipe" method="post"><input type="hidden" name="recipe_id" value="{{ data['recipe_id'] }}"/><input type="submit" class="dislike" value="DISLIKE" /></form></span>
             </div>
             </div>
               <script>

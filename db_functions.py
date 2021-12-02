@@ -141,11 +141,11 @@ def is_liked(email, recipe_id):
     like_entry = Likes.query.filter_by(email=email, recipe_id=recipe_id).first()
     if like_entry is None:
         return False
-    return like_entry.like_value is 1
+    return like_entry.like_value == 1
 
 
 def is_disliked(email, recipe_id):
     like_entry = Likes.query.filter_by(email=email, recipe_id=recipe_id).first()
     if like_entry is None:
         return False
-    return like_entry.like_value is -1
+    return like_entry.like_value == -1
