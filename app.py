@@ -89,11 +89,13 @@ def unauthorized_callback():
 
 @app.route("/")
 def main():
+    flask.session.pop("_flashes", None)
     return flask.render_template("landingPage.html")
 
 
 @app.route("/redirect")
 def redirect():
+    flask.session.pop("_flashes", None)
     if current_user.is_authenticated:
         return flask.redirect("/grocerylist")
     else:
@@ -109,6 +111,7 @@ def login():
 
 @app.route("/loginpost", methods=["POST"])  # login POST
 def loginpost():
+    flask.session.pop("_flashes", None)
     entered_email = flask.request.form["email"]
     entered_password = flask.request.form["password"]
     if not user_info_correct(entered_email, entered_password):
@@ -127,6 +130,7 @@ def signup():
 
 @app.route("/signuppost", methods=["POST"])
 def signuppost():
+    flask.session.pop("_flashes", None)
     entered_email = flask.request.form["email"]
     entered_password = flask.request.form["password"]
     if user_exists(entered_email):
@@ -141,13 +145,16 @@ def signuppost():
 @app.route("/logout")
 @login_required
 def logout():
+    flask.session.pop("_flashes", None)
     logout_user()
+    flask.flash("Logged out successfully.")
     return flask.redirect("/")
 
 
 @app.route("/saverecipes", methods=["POST"])
 @login_required
 def saverecipes():
+    flask.session.pop("_flashes", None)
     recipe_list = set(
         [str(i["id"]) for i in json.loads(flask.request.data)["recipeList"]]
     )
@@ -178,6 +185,7 @@ def saverecipes():
 @app.route("/delingredient", methods=["POST"])
 @login_required
 def delingredient():
+    flask.session.pop("_flashes", None)
     ingredient_name = flask.request.form["ingredient_name"]
     this_ingredient = get_ingredient(current_user.email, ingredient_name)
 
@@ -193,6 +201,7 @@ def delingredient():
 @app.route("/addingredients", methods=["POST"])
 @login_required
 def addingredient():
+    flask.session.pop("_flashes", None)
     add_indexes = [int(i) for i in flask.request.form.getlist("checks")]
     ingredients = flask.request.form.getlist("ingredient")
     quantities = flask.request.form.getlist("quantity")
@@ -226,6 +235,7 @@ def addingredient():
 @app.route("/searchrecipes", methods=["POST"])
 @login_required
 def searchrecipes():
+    flask.session.pop("_flashes", None)
     query = json.loads(flask.request.data)["query"]
     result_ids = recipesSearch(query)
     recipes_info = []
@@ -288,6 +298,7 @@ def grocerylist():
 @app.route("/savelikes", methods=["POST"])
 @login_required
 def savelikes():
+    flask.session.pop("_flashes", None)
     likes_list = json.loads(flask.request.data)["likes"]  # expects a list of recipe IDs
     dislikes_list = json.loads(flask.request.data)[
         "dislikes"
@@ -335,6 +346,7 @@ def savelikes():
 @app.route("/likerecipe", methods=["POST"])
 @login_required
 def likerecipe():
+    flask.session.pop("_flashes", None)
     recipe_id = flask.request.form["recipe_id"]
     if is_liked(current_user.email, recipe_id):
         like_entry = get_like(current_user.email, recipe_id)
@@ -355,6 +367,7 @@ def likerecipe():
 @app.route("/dislikerecipe", methods=["POST"])
 @login_required
 def dislikerecipe():
+    flask.session.pop("_flashes", None)
     recipe_id = flask.request.form["recipe_id"]
     if is_disliked(current_user.email, recipe_id):
         like_entry = get_like(current_user.email, recipe_id)
