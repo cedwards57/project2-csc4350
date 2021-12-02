@@ -255,6 +255,8 @@ def recipe():
         "ingredients": recipe_ing,
         "len": len(recipe_ing),
         "recipe_id": recipe_id,
+        "is_liked": is_liked(current_user.email, recipe_id),
+        "is_disliked": is_disliked(current_user.email, recipe_id),
     }
 
     return flask.render_template("recipe.html", data=data)

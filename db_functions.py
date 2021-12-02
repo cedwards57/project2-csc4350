@@ -119,7 +119,7 @@ def get_dislikes_list(email):
 
 
 def get_like(email, recipe_id):
-    Likes.query.filter_by(email=email, recipe_id=recipe_id).first()
+    return Likes.query.filter_by(email=email, recipe_id=recipe_id).first()
 
 
 def set_like(email, recipe_id):
@@ -139,13 +139,13 @@ def get_like_value(email, recipe_id):
 
 def is_liked(email, recipe_id):
     like_entry = Likes.query.filter_by(email=email, recipe_id=recipe_id).first()
-    if like_entry == None:
+    if like_entry is None:
         return False
-    return like_entry.like_value == 1
+    return like_entry.like_value is 1
 
 
 def is_disliked(email, recipe_id):
     like_entry = Likes.query.filter_by(email=email, recipe_id=recipe_id).first()
-    if like_entry == None:
+    if like_entry is None:
         return False
-    return like_entry.like_value == -1
+    return like_entry.like_value is -1

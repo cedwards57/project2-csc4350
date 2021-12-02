@@ -10,9 +10,6 @@
     <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
         <style>
             @import url('https://fonts.googleapis.com/css?family=Montserrat:600&display=swap');
-            body {
-            
-            }
             ul {
                 list-style-type: none;
                 margin: 0;
@@ -139,6 +136,7 @@
             <div class="ingredients">
                 <h2>Needed Ingredients:</h2>
                 <form method="post" action="/addingredients">
+                    <input type="hidden" name="recipe_id" value="{{ data['recipe_id'] }}"/>
                     {% for i in range(data["len"])%}
                         <h3>
                             <input type="hidden" name="ingredient" value="{{data["ingredients"][i]["name"]}}">
@@ -153,8 +151,19 @@
             <div class="heart-btn">
                 <div class="content">
                   <span class="heart"></span>
-                  <span class="text">SUBSCRIBE</span>
+                  <div class="text">
+                  <form action="/likerecipe" method="post"><input type="hidden" name="recipe_id" value="{{ data['recipe_id'] }}"/><input type="submit" value="LIKE" /></form>
+                  <form action="/dislikerecipe" method="post"><input type="hidden" name="recipe_id" value="{{ data['recipe_id'] }}"/><input type="submit" value="DISLIKE" /></form>
+                </div>
                   <span class="numb"></span>
+                  <p>
+                    {% if data["is_liked"] %}
+                        You like this recipe!
+                    {% endif %}
+                    {% if data["is_disliked"] %}
+                        You dislike this recipe.
+                    {% endif %}
+                  </p>
                 </div>
               </div>
     </body>
