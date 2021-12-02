@@ -15,7 +15,7 @@
         </div>
         <div class="info">
             <h1>{{ data["title"] }}</h1>
-            <p>{{ data["summary"] }}</p>
+            <p>{{ data["summary"] |safe}}</p>
             <img src={{ data["imageURL"] }} />
         </div>
         <br/>
