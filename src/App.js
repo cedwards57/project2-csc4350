@@ -57,17 +57,17 @@ function App() {
   return (
     <>
     <ul>
-      <li><a href="/recipelist">Recipe List</a></li>
-      <li><a href="/">Grocery List</a></li>
-      <li><a href="/logout">logout</a></li>
+      <li class="pageTitle"><a class="pageTitle1" href="/recipelist">Recipe List</a></li>
+      <li class="theItem"><a class="theLink" href="/grocerylist">Grocery List</a></li>
+      <li class="theItem"><a class="theLink" href="/logout">logout</a></li>
     </ul>
     
-    <h1>{args.name}</h1>
-    <input type="text" id="searchQuery" placeholder="Search by ingredient..." /><button onClick={searchRecipe}>Search</button>
-    {searchRecipes.map((item, k) => <p><ResultRecipe id={item.id} title={item.title}/><button onClick={() => addRecipe(item)}>Add Recipe</button></p>)}
-    <h3>Your Recipes</h3>
-    {recipeList.map((item, j) => <p><UserRecipe id={item.id} title={item.title}/><button onClick={() => delRecipe(item)}>Delete</button></p>)}
-    <button onClick={saveChanges}>Save Changes</button>
+    <h1 class="greeting">Hello, {args.name}</h1>
+    <input type="text" id="searchQuery" placeholder="Search by ingredient..." /><button class="button1" onClick={searchRecipe}>Search</button>
+    {searchRecipes.map((item, k) => <p class="listofR"><ResultRecipe id={item.id} title={item.title}/><button class="button2" onClick={() => addRecipe(item)}>Add Recipe</button></p>)}
+    <h2 class="yourRecipe">Your Recipes</h2>
+    {recipeList.map((item, j) => <p class="listofR"><UserRecipe id={item.id} title={item.title}/><button class="button2" onClick={() => delRecipe(item)}>Delete</button></p>)}
+    <button class="button12" onClick={saveChanges}>Save Changes</button>
     </>
   );
 }

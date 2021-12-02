@@ -129,9 +129,9 @@
         </div>
         <div class="info">
             <h1>{{ data["title"] }}</h1>
-            <h2>{{ data["summary"] }}</h2>
+            <h2>{{ data["summary"] |safe}}</h2>
             <div style="text-align: center;">
-                <img src={{ data["imageURL"] }} />
+                <img src={{ data["imageURL"]}} />
             </div>
         </div>
         <br/>
