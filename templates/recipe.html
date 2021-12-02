@@ -10,9 +10,6 @@
     <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
         <style>
             @import url('https://fonts.googleapis.com/css?family=Montserrat:600&display=swap');
-            body {
-            
-            }
             ul {
                 list-style-type: none;
                 margin: 0;
@@ -81,12 +78,6 @@
                 display: inline-block;
                 font-size: 16px;
             }
-            .heart-btn{
-                position: absolute;
-                top: 20%;
-                left: 5%;
-                transform: translate(-50%,-50%);
-            }
             .heart-btn2{
                 position: absolute;
                 top: 30%;
@@ -94,11 +85,19 @@
                 transform: translate(-50%,-50%);
             }
             .content{
+                position: absolute;
+                top: 80px;
+                left: 20px;
                 padding: 15px 30px;
                 display: flex;
                 border: 2px solid #eae2e1;
                 border-radius: 5px;
                 cursor: pointer;
+            }
+            .sidebar {
+                position: absolute;
+                top: 80px;
+                left: 20px;
             }
             .content2{
                 padding: 13px 16px;
@@ -116,12 +115,23 @@
                 background: darkolivegreen;
             }
 
-            .text{
+            .sidebar input{
                 font-size: 21px;
-                margin-left: 30px;
-                color: darkolivegreen;
                 font-family: 'Montserrat',sans-serif;
             }
+            /* IGNORE THESE ERRORS. It's just Jinja, the code runs fine. */
+            {% if data["is_liked"] %}
+            .like {
+                background-color: darkolivegreen;
+                color: white;
+            }
+            {% endif %}
+            {% if data["is_disliked"] %}
+            .dislike {
+                background-color: maroon;
+                color: white;
+            }
+            {% endif %}
             .text2{
                 font-size: 21px;
                 margin-left: 30px;
@@ -176,7 +186,7 @@
         </div>
         <div class="info">
             <h1>{{ data["title"] }}</h1>
-            <h2>{{ data["summary"] }}</h2>
+            <h2>{{ data["summary"] |safe}}</h2>
             <div style="text-align: center;">
                 <img src={{ data["imageURL"] }} />
             </div>
@@ -186,6 +196,7 @@
             <div class="ingredients">
                 <h2>Needed Ingredients:</h2>
                 <form method="post" action="/addingredients">
+                    <input type="hidden" name="recipe_id" value="{{ data['recipe_id'] }}"/>
                     {% for i in range(data["len"])%}
                         <h3>
                             <input type="hidden" name="ingredient" value="{{data["ingredients"][i]["name"]}}">
@@ -197,19 +208,9 @@
                     <button class ="btn" type="submit">Add All</button>
                 </form>
             </div>
-            <div class="heart-btn">
-                <div class="content">
-                  <span class="heart"></span>
-                  <span class="text">Like</span>
-                  <span class="numb"></span>
-                </div>
-            </div>
-            <div class="heart-btn2">
-              <div class="content2">
-                <span class="heart2"></span>
-                <span class="text2">unLike</span>
-                <span class="numb2"></span>
-              </div>
+            <div class="sidebar">
+                <span class="text"><form action="/likerecipe" method="post"><input type="hidden" name="recipe_id" value="{{ data['recipe_id'] }}"/><input type="submit" class="like" value="LIKE" /></form></span>
+                <span class="text2"><form action="/dislikerecipe" method="post"><input type="hidden" name="recipe_id" value="{{ data['recipe_id'] }}"/><input type="submit" class="dislike" value="DISLIKE" /></form></span>
             </div>
             </div>
               <script>
