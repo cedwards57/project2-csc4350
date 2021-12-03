@@ -78,43 +78,28 @@
                 display: inline-block;
                 font-size: 16px;
             }
-            .heart-btn2{
+            .Savebutton{
                 position: absolute;
-                top: 30%;
+                top: 60%;
                 left: 5%;
                 transform: translate(-50%,-50%);
-            }
-            .content{
-                position: absolute;
-                top: 80px;
-                left: 20px;
-                padding: 15px 30px;
-                display: flex;
-                border: 2px solid #eae2e1;
-                border-radius: 5px;
-                cursor: pointer;
             }
             .sidebar {
                 position: absolute;
                 top: 80px;
                 left: 20px;
             }
-            .content2{
-                padding: 13px 16px;
+            .Scontent{
+                padding: 15px 20px;
                 display: flex;
                 border: 2px solid #eae2e1;
                 border-radius: 5px;
                 cursor: pointer;
             }
-            .content.heart-active{
+            .Scontent.active{
                 border-color: #f9b9c4;
                 background: darkolivegreen;
             }
-            .content2.heart-active{
-                border-color: #f9b9c4;
-                background: darkolivegreen;
-            }
-
             .sidebar input{
                 font-size: 21px;
                 font-family: 'Montserrat',sans-serif;
@@ -132,48 +117,29 @@
                 color: white;
             }
             {% endif %}
-            .text2{
+            .like{
                 font-size: 21px;
-                margin-left: 30px;
+                margin-bottom: 0 50% ;
                 color: darkolivegreen;
                 font-family: 'Montserrat',sans-serif;
             }
-            .numb:before{
+            .dislike{
                 font-size: 21px;
-                margin-left: 7px;
-                font-weight: 600;
-                color: #9C9496;
-                font-family: sans-serif;
+                margin-bottom: 0 50% ;
+                color: darkolivegreen;
+                font-family: 'Montserrat',sans-serif;
             }
-            .numb2:before{
+            .text3{
                 font-size: 21px;
-                margin-left: 7px;
-                font-weight: 600;
-                color: #9C9496;
-                font-family: sans-serif;
+                margin-bottom: 0 50% ;
+                color: darkolivegreen;
+                font-family: 'Montserrat',sans-serif;
             }
-            .text.heart-active{
+
+            .text3.active{
                 color: white;
             }
-            .text2.heart-active{
-                color: white;
-            }
-            .heart.heart-active{
-                animation: animate .8s steps(28) 1;
-                background-position: right;
-            }
-            .heart2.heart-active{
-                animation: animate .8s steps(28) 1;
-                background-position: right;
-            }
-            @keyframes animate {
-            0%{
-                background-position: left;
-            }
-            100%{
-                background-position: right;
-            }
-}
+
         </style>
     </head>
     <body>
@@ -209,25 +175,23 @@
                 </form>
             </div>
             <div class="sidebar">
-                <span class="text"><form action="/likerecipe" method="post"><input type="hidden" name="recipe_id" value="{{ data['recipe_id'] }}"/><input type="submit" class="like" value="LIKE" /></form></span>
-                <span class="text2"><form action="/dislikerecipe" method="post"><input type="hidden" name="recipe_id" value="{{ data['recipe_id'] }}"/><input type="submit" class="dislike" value="DISLIKE" /></form></span>
+                <span class="text"><form action="/likerecipe" method="post"><input type="hidden" name="recipe_id" value="{{ data['recipe_id'] }}"/><input type="submit" class="btn btn-primary" value="LIKE" /></form></span></br>
+                <span class="text2"><form action="/dislikerecipe" method="post"><input type="hidden" name="recipe_id" value="{{ data['recipe_id'] }}"/><input type="submit" class="btn btn-primary" value="DISLIKE" /></form></span><br>
+                <span class="text4"><form action="/dislikerecipe" method="post"><input type="hidden" name="recipe_id" value="{{ data['recipe_id'] }}"/><input type="submit" class="btn btn-primary" value="Save" /></form></span>
+            
             </div>
             </div>
+            <div class="Savebutton">
+                <div class="Scontent">
+                  <span class="text3">SAVE</span>
+                  <span class="numb2"></span>
+                </div>
+              </div>
               <script>
                 $(document).ready(function(){
-                  $('.content').click(function(){
-                    $('.content').toggleClass("heart-active")
-                    $('.text').toggleClass("heart-active")
-                    $('.numb').toggleClass("heart-active")
-                    $('.heart').toggleClass("heart-active")
-                  });
-                });
-                $(document).ready(function(){
-                  $('.content2').click(function(){
-                    $('.content2').toggleClass("heart-active")
-                    $('.text2').toggleClass("heart-active")
-                    $('.numb2').toggleClass("heart-active")
-                    $('.heart2').toggleClass("heart-active")
+                  $('.Scontent').click(function(){
+                    $('.Scontent').toggleClass("active")
+                    $('.text3').toggleClass("active")
                   });
                 });
               </script>
