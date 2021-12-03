@@ -33,14 +33,17 @@ def recipeIngredients(rID):
                     "units": ing["amount"]["us"]["unit"],
                 }
             )
-    except res_json['status'] == 'failure':
-        pass
+    except Exception as e:
+        if e == 'ingredients':
+            pass
     # # if you would like to see what the entier json returns uncomment the next two lines.
     # res_json_fmtd = json.dumps(res_json, indent=2)
     # print(ingredients)
 
     return ingredients
 
+
+print(recipeIngredients(111111))
 
 # uncomment next two lines to test the function
 recipeIngredients(1003464)
