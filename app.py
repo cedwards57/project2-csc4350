@@ -11,6 +11,7 @@ import os
 from models import db
 import json
 from db_functions import (
+    get_recipe,
     is_disliked,
     user_exists,
     get_user,
@@ -262,6 +263,7 @@ def recipe():
         "recipe_id": recipe_id,
         "is_liked": is_liked(current_user.email, recipe_id),
         "is_disliked": is_disliked(current_user.email, recipe_id),
+        "saved": user_has_recipe(current_user.email, recipe_id),
     }
 
     return flask.render_template("recipe.html", data=data)
@@ -375,6 +377,23 @@ def dislikerecipe():
     else:
         like_entry = set_dislike(current_user.email, recipe_id)
         db.session.add(like_entry)
+        db.session.commit()
+
+    return flask.redirect(f"/recipe?recipeid={recipe_id}")
+
+
+@app.route("/saverecipe", methods=["POST"])
+@login_required
+def saverecipe():
+    flask.session.pop("_flashes", None)
+    recipe_id = flask.request.form["recipe_id"]
+    if user_has_recipe(current_user.email, recipe_id):
+        this_recipe = get_recipe(current_user.email, recipe_id)
+        db.session.delete(this_recipe)
+        db.session.commit()
+    else:
+        this_recipe = set_recipe(current_user.email, recipe_id)
+        db.session.add(this_recipe)
         db.session.commit()
 
     return flask.redirect(f"/recipe?recipeid={recipe_id}")
