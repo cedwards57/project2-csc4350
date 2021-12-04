@@ -38,7 +38,7 @@ Upon accessing `/recipelist`, the user can see a search bar and a
 
 
 ## Run Application Locally
-1. In your project directory, run command: `npm run build`. This will update anything related to your `App.js` file (i.e. `public/index.html`, any CSS you're pulling in, etc).
+1. In your project directory, run command: `npm run build`. This will update anything related to your `App.js` file (i.e. `public/index.html`, any CSS you're pulling in, etc), so be sure to do this anytime you change any components related to the React page!
 2. In your project directory, run command: `python3 app.py`
 3. Preview web page in browser at 'localhost:8081/'
 
