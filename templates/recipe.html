@@ -50,7 +50,7 @@
             }
             .btn {
                 background-color: whitesmoke;
-                font:italic 1em Georgia, serif;
+                font:1em Georgia, serif;
                 font-size:14px;
                 border: none;
                 color: darkolivegreen;
@@ -59,6 +59,9 @@
                 text-decoration: none;
                 display: inline-block;
                 font-size: 12px;
+            }
+            .btn:hover {
+                background-color: lightslategray;
             }
             .ingredients{
                 background-color: darkolivegreen;
@@ -117,18 +120,12 @@
                 color: white;
             }
             {% endif %}
-            .like{
-                font-size: 21px;
-                margin-bottom: 0 50% ;
-                color: darkolivegreen;
-                font-family: 'Montserrat',sans-serif;
+            {% if data["saved"] %}
+            .save {
+                background-color: #326fa8;
+                color: white;
             }
-            .dislike{
-                font-size: 21px;
-                margin-bottom: 0 50% ;
-                color: darkolivegreen;
-                font-family: 'Montserrat',sans-serif;
-            }
+            {% endif %}
             .text3{
                 font-size: 21px;
                 margin-bottom: 0 50% ;
@@ -175,23 +172,10 @@
                 </form>
             </div>
             <div class="sidebar">
-                <span class="text"><form action="/likerecipe" method="post"><input type="hidden" name="recipe_id" value="{{ data['recipe_id'] }}"/><input type="submit" class="btn btn-primary" value="LIKE" /></form></span></br>
-                <span class="text2"><form action="/dislikerecipe" method="post"><input type="hidden" name="recipe_id" value="{{ data['recipe_id'] }}"/><input type="submit" class="btn btn-primary" value="DISLIKE" /></form></span><br>
+                <span><form action="/likerecipe" method="post"><input type="hidden" name="recipe_id" value="{{ data['recipe_id'] }}"/><input type="submit" class="like btn btn-primary" value="LIKE" /></form></span></br>
+                <span><form action="/dislikerecipe" method="post"><input type="hidden" name="recipe_id" value="{{ data['recipe_id'] }}"/><input type="submit" class="dislike btn btn-primary" value="DISLIKE" /></form></span><br>
+                <span><form action="/saverecipe" method="post"><input type="hidden" name="recipe_id" value="{{ data['recipe_id'] }}"/><input type="submit" class="save btn btn-primary" value="SAVE{% if data['saved'] %}D{% endif %}" /></form></span><br>
             </div>
             </div>
-            <div class="Savebutton">
-                <div class="Scontent">
-                  <span class="text3">SAVE</span>
-                  <span class="numb2"></span>
-                </div>
-              </div>
-              <script>
-                $(document).ready(function(){
-                  $('.Scontent').click(function(){
-                    $('.Scontent').toggleClass("active")
-                    $('.text3').toggleClass("active")
-                  });
-                });
-              </script>
     </body>
 </html>

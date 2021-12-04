@@ -21,8 +21,8 @@ def recipesInfo(recipe):
     res2 = requests.request("GET", url=BASE_URL, headers=headers)
     res2_json = res2.json()
 
-    recipe_info_list = {'title':'','id':'', 'imageURL':'', 'summary':''}
-    
+    recipe_info_list = {"title": "", "id": "", "imageURL": "", "summary": ""}
+
     try:
 
         recipe_info_list["title"] = res2_json["title"]
@@ -31,10 +31,8 @@ def recipesInfo(recipe):
         recipe_info_list["summary"] = res2_json["summary"]
 
     except Exception as e:
-        if e == 'title':
+        if e == "title":
             pass
     # res_json_fmtd = json.dumps(res2_json, indent=2)
     # print(recipe_info_list["title"])
     return recipe_info_list
-
-print(recipesInfo(11111))
