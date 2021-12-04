@@ -1,11 +1,11 @@
 ## Heroku Link: Sprint 2
 [http://hungrylists.herokuapp.com/](http://hungrylists.herokuapp.com/)
 
-### Sprint 1 Link
+## Sprint 1 Link
 [http://project2-csc4350.herokuapp.com/](http://project2-csc4350.herokuapp.com/)
 <br><br>
 
-# Hungrylists Usage
+# Use This App (Documentation)
 Welcome! Hungrylists can be accessed from [this website](http://hungrylists.herokuapp.com/).
 
 ## Startup
@@ -18,14 +18,24 @@ From the `/login` page, the user can enter existing credentials to log in, or cl
 
 From the `/signup` page, a user may create a new account.
 * Passwords are encrypted before being stored in the database. Both encryption and decryption (for password checks in `/login`) are done server-side.
-* Entering a username that already exists will flash the error "That username is taken. Sorry!"
+* Entering a username that already exists will flash the error "That email is taken. Sorry!"
 
-Attempting to access a login-only page (`/grocerylist`, `/recipelist`, `/recipe`) while not logged in will redirect the user to `/login` and display the error "You must be logged in to view that page."
+Attempting to access a login-only page (`/grocerylist`, `/recipelist`, `/recipe`) while not logged in will redirect the user to the landing page and display the error "You must be logged in to view that page."
 
-## /recipelist
+## `/grocerylist`
+This page will display ingredients that you have chosen to save from recipes. By default, the list will be empty, and prompt you to check out recipes. After you add ingredients, you can delete them individually from this page.
 
-Upon accessing `/recipelist`, the user can see a search bar and a 
+## `/recipelist`
+You can view your saved recipes here. You can also enter a type of ingredient (e.g. try "egg" or "potato"!) and click "Search" to find the top 10 recipes that feature that ingredient.
 
+You may add and remove recipes from your saved list (remember to click "Save Changes" afterwards, and give it a few seconds), or click "More Details" to check out the recipe's summary and ingredients.
+
+## `/recipe`
+You can only access this page by clicking a specific "More Details" link, as the URL will contain encoding to specify a particular recipe.
+
+This page contains an image and summary of the particular recipe, as well as a list of ingredients. At the bottom of the page, you can choose ingredients your kitchen is missing, and add them to your grocery list (which will add the amount needed for this particular recipe).
+
+You can click buttons to Like or Dislike a recipe (the corresponding button will be highlighted anytime you visit the page for a recipe you've already liked or disliked, so you can quickly tell your opinion on recipes you've seen before). You can also save or un-save the recipe from this page.
 
 
 <br><br>
@@ -51,10 +61,17 @@ Upon accessing `/recipelist`, the user can see a search bar and a
 
 ## Configure Other Heroku Variables
 1. Go to your [Heroku app dashboard](https://dashboard.heroku.com/apps) and navigate to your app. Under the "Settings" tab, click "Reveal Config Vars".
-2. Generate a long, random `bytes` or `str` variable. You can do this by running on the command line: `python -c 'import secrets; print(secrets.token_hex())'`. Save the output as a Config Variable called `SECRET_KEY`.
+2. Generate a long, random `bytes` or `str` variable. One way to do this is running on the command line: `python3 -c "import secrets; print(secrets.token_hex())"`. Save the output as a Config Variable called `SECRET_KEY`.
 3. Go to [Spoonacular](https://spoonacular.com/food-api) and register to get an API key appropriate to the level of use you expect for your app. Save the key as a Config Variable called `SPOON_API_KEY`.
 4. Go to [Rapid API](https://rapidapi.com/) and register to get an API key. Save the key as a Config Variable called `x-rapidapi-key`.
+5. Run `python3 -c "from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())"` and save the output as a Config Variable called `PASSWORD_KEY`.
 
+## Configure variables for local development
+If you want to develop locally, create a file in your repository called `.env`. Copy each Config Variable into that file in the following format:
+
+> `export VARIABLE_NAME="VARIABLE_CONTENT"`
+
+This file is included in the `.gitignore` so that they do not get committed. Be sure you do not save/commit these keys elsewhere.
 
 
 ## Deploy to Heroku
