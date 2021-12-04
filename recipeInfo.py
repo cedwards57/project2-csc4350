@@ -30,8 +30,11 @@ def recipesInfo(recipe):
         recipe_info_list["imageURL"] = res2_json["image"]
         recipe_info_list["summary"] = res2_json["summary"]
 
-    except res2_json['status'] == 'failure':
-        pass
+    except Exception as e:
+        if e == 'title':
+            pass
     # res_json_fmtd = json.dumps(res2_json, indent=2)
     # print(recipe_info_list["title"])
     return recipe_info_list
+
+print(recipesInfo(11111))
